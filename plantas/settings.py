@@ -12,8 +12,8 @@ DEBUG = config('DEBUG', cast=bool)
 ALLOWED_HOSTS = ['localhost', '127.0.0.1','lasmirlas.azurewebsites.net']
 
 CORS_ALLOWED_ORIGINS = [
-   'http://127.0.0.1:8000','https://lasmirlas.azurewebsites.net','http://lasmirlas.azurewebsites.net',
-   'https://lasmirlas.azurewebsites.net/'
+   'http://127.0.0.1:8000','http://lasmirlas.azurewebsites.net',
+   'https://lasmirlas.azurewebsites.net'
 ]
 
 
