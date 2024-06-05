@@ -1,0 +1,122 @@
+
+
+/* Add a black background color to the top navigation */
+.topnav {
+    position: relative;
+    background-color: #333;
+    overflow: hidden;
+}
+
+/* Style the links inside the navigation bar */
+.topnav a {
+    float: left;
+    color: #f2f2f2;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+    font-size: 17px;
+}
+
+/* Change the color of links on hover */
+.topnav a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+/* Add a color to the active/current link */
+.topnav a.active {
+    background-color: #04AA6D;
+    color: white;
+}
+
+/* Centered section inside the top navigation */
+.topnav-centered a {
+    float: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Right-aligned section inside the top navigation */
+.topnav-right {
+    float: right;
+}
+
+/* Responsive navigation menu - display links on top of each other instead of next to each other (for mobile devices) */
+@media screen and (max-width: 600px) {
+    .topnav a,
+    .topnav-right {
+        float: none;
+        display: block;
+    }
+
+    .topnav-centered a {
+        position: relative;
+        top: 0;
+        left: 0;
+        transform: none;
+    }
+}
+
+body{
+    margin: 20px;
+    text-align: center;
+    padding: 20px;
+    background-color: rgb(215, 227, 250);
+}
+
+.body1{
+    padding: 20px;
+}
+
+.col-sm-3{
+    margin: 2%;
+    text-align: center;
+    padding: 2%;
+    background-color: rgb(217, 250, 215);
+}
+
+.card {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+    max-width: 300px; /* Adjust as needed */
+    margin: 0 auto;
+}
+
+.card__img {
+    width: 100%;
+    border-radius: 5px 5px 0 0;
+}
+
+.card__content {
+    padding: 1rem;
+}
+
+.card__header {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.card__text {
+    font-size: 1rem;
+    color: #555;
+}
+
+.card__btn {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.card__btn:hover {
+    background-color: #0056b3;
+}
