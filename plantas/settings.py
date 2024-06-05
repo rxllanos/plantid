@@ -71,7 +71,7 @@ TEMPLATES = [
     },
 ]
 
-# WSGI_APPLICATION = 'plantas.wsgi.application'
+WSGI_APPLICATION = 'plantas.wsgi.application'
 
 
 DATABASES = {
