@@ -9,10 +9,10 @@ SECRET_KEY = 'django-insecure-^f36+yx*53zu(#c78vzjob+%&t^2mqij4tmzu9inr^p8szodct
 
 DEBUG = config('DEBUG', cast=bool)
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1','172.174.130.175']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1','https://lasmirlas.azurewebsites.net']
 
 CORS_ALLOWED_ORIGINS = [
-   'http://127.0.0.1:8000','https://172.174.130.175'
+   'http://127.0.0.1:8000','https://lasmirlas.azurewebsites.net'
 
 ]
 
