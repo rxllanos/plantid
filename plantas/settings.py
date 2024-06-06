@@ -4,18 +4,20 @@ import os
 from decouple import config
 
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 SECRET_KEY = 'django-insecure-^f36+yx*53zu(#c78vzjob+%&t^2mqij4tmzu9inr^p8szodct'
-
 DEBUG = config('DEBUG', cast=bool)
 
 ALLOWED_HOSTS = ['localhost', '127.0.0.1','lasmirlas.azurewebsites.net']
 
-CORS_ALLOWED_ORIGINS = [
-   'http://127.0.0.1:8000','http://lasmirlas.azurewebsites.net',
-   'https://lasmirlas.azurewebsites.net'
+CSRF_TRUSTED_ORIGINS = [
+    'https://lasmirlas.azurewebsites.net',
 ]
 
+CORS_ALLOWED_ORIGINS = [
+    'http://127.0.0.1:8000',
+    'http://lasmirlas.azurewebsites.net',
+    'https://lasmirlas.azurewebsites.net'
+]
 
 INSTALLED_APPS = [
     'planta.apps.PlantaConfig',
@@ -46,13 +48,9 @@ MIDDLEWARE = [
 ]
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
-
 MESSAGE_STORAGE = 'django.contrib.messages.storage.cookie.CookieStorage'
-
 ROOT_URLCONF = 'plantas.urls'
-
 CRISPY_TEMPLATE_PACK = 'bootstrap5'
-
 TEMPLATES_DIR = os.path.join(BASE_DIR)
 
 TEMPLATES = [
@@ -73,7 +71,6 @@ TEMPLATES = [
 
 # WSGI_APPLICATION = 'plantas.wsgi.application'
 
-
 DATABASES = {
     'default': {
         "ENGINE": "django.db.backends.postgresql",
@@ -85,9 +82,6 @@ DATABASES = {
         "OPTION":{"sslmode":'require'},
     }
 }
-
-# Password validation
-# https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
