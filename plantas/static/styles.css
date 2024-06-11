@@ -120,3 +120,8 @@ body{
 .card__btn:hover {
     background-color: #0056b3;
 }
+
+.separator {
+    border-bottom: 1px solid #ccc; /* Adds a line separator */
+    margin-bottom: 20px; /* Adds space below the separator */
+}

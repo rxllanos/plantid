@@ -26,8 +26,8 @@ class Command(BaseCommand):
 
             for _, row in df.iterrows():
                 IngredientID.objects.create(
-                    name=row['name'],
-                    id_ingredients=row['id_ingredients'],
+                    spoon_name=row['spoon_name'],
+                    spoon_id_ingredients=row['spoon_id_ingredients'],
                 )
             self.stdout.write(self.style.SUCCESS('Data imported successfully'))
         except Exception as e:

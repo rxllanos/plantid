@@ -14,16 +14,16 @@ function handledata(event) {
   const info = button.dataset.info;  
   console.log("id:" + buttonId);
   console.log("info" + info);
+  const plantImageElement = document.getElementById('image');   
   const name = document.getElementById('name');  
   const text = document.getElementById('text');
   const wiki = document.getElementById('wiki');
   const disease_list = document.getElementById('disease-list');
-  const plantImageElement = document.getElementById('image');   
+  plantImageElement.scr = '';
   name.innerHTML = '';
   text.innerHTML = '';
   wiki.innerHTML = '';
   disease_list.innerHTML = '';
-  plantImageElement.scr = '';
 
   if(info=== 'more-data') {
     document.querySelector('#plant-data').style.display = 'block';

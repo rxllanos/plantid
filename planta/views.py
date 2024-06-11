@@ -150,6 +150,8 @@ def add(request):
     if request.method == "POST":
         form = PlantPictureForm(request.POST, request.FILES)
         if form.is_valid():
+            plant_picture = form.save(commit=False)
+            plant_picture.user = request.user
             form.save()
             messages.success(request, 'Data created Successfully!')
             return redirect('planta:add')
