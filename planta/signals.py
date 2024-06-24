@@ -32,6 +32,7 @@ def save_plant_identification(sender, instance, created, **kwargs):
             print(f" plant_probability: {data_plant['result']['is_plant']['probability']}")
 
             try:
+                
                 plant.plant_access_token = data_plant['access_token']
                 plant.plant_is_plant_binary = data_plant['result']['is_plant']['binary']
                 plant.plant_is_plant_probability=data_plant['result']['is_plant']['probability']

@@ -19,105 +19,105 @@ headers_spoon = {
   'Content-Type': 'application/json'
 }
 
-def save_recepy(ing_n):
-    print('_____')
-    ingr = Ingredient.objects.filter(ingredient_original_name=ing_n).first()
-    print(f"running api for ingredient with name {ing_n}")
+# def save_recepy(ing_n):
+#     print('_____')
+#     ingr = Ingredient.objects.filter(ingredient_original_name=ing_n).first()
+#     print(f"running api for ingredient with name {ing_n}")
     
-    # with transaction.atomic():
-    number = 3
-    ranking = 1
-    url_recepy = f"https://api.spoonacular.com/recipes/findByIngredients?ingredients={ingr}&number={number}&ranking={ranking}"
-    response_recepy = requests.get(url_recepy, headers=headers_spoon)
-    data_recepy = response_recepy.json()        
-    print(f" received api recepy for {ing_n}: {response_recepy.status_code}")
-    with open(f'api_response_recepy_{ing_n}.json', 'w') as json_file:
-        json.dump([data_recepy], json_file)   
+#     # with transaction.atomic():
+#     number = 3
+#     ranking = 1
+#     url_recepy = f"https://api.spoonacular.com/recipes/findByIngredients?ingredients={ingr}&number={number}&ranking={ranking}"
+#     response_recepy = requests.get(url_recepy, headers=headers_spoon)
+#     data_recepy = response_recepy.json()        
+#     print(f" received api recepy for {ing_n}: {response_recepy.status_code}")
+#     with open(f'api_response_recepy_{ing_n}.json', 'w') as json_file:
+#         json.dump([data_recepy], json_file)   
 
 
-    print(json.dumps(data_recepy, indent=2))
+#     print(json.dumps(data_recepy, indent=2))
 
-    while True:
-        keyword = input("Enter 'resume' to continue: ").strip().lower()
-        if keyword == 'resume':
-            break
-        else:
-            print("Incorrect keyword. Please try again.") 
+#     while True:
+#         keyword = input("Enter 'resume' to continue: ").strip().lower()
+#         if keyword == 'resume':
+#             break
+#         else:
+#             print("Incorrect keyword. Please try again.") 
 
-    for recipe in data_recepy:
-        try:
-            print(f" id_recepy : {recipe['id']}")
-            print(f" title: {recipe['title']}")
-            print(f" image : {recipe['image']}")
-            print(f" used_ingredient_count : {recipe['usedIngredientCount']}")
-            print(f" missed_ingredient_count : {recipe['missedIngredientCount']}")
-            r = Recepy.objects.create(
-                recepy_ingredient = ingr,
-                recepy_id_recepy = recipe['id'],
-                recepy_title = recipe['title'],
-                recepy_image = recipe['image'],
-                recepy_used_ingredient_count = recipe['usedIngredientCount'],
-                recepy_missed_ingredient_count = recipe['missedIngredientCount'],
-            )
-            print(f"Recepy {r.recepy_title} saved with used ingredient  : {r.recepy_used_ingredient_count} ,and missed ingredients: {r.recepy_missed_ingredient_count}.")
+#     for recipe in data_recepy:
+#         try:
+#             print(f" id_recepy : {recipe['id']}")
+#             print(f" title: {recipe['title']}")
+#             print(f" image : {recipe['image']}")
+#             print(f" used_ingredient_count : {recipe['usedIngredientCount']}")
+#             print(f" missed_ingredient_count : {recipe['missedIngredientCount']}")
+#             r = Recepy.objects.create(
+#                 recepy_ingredient = ingr,
+#                 recepy_id_recepy = recipe['id'],
+#                 recepy_title = recipe['title'],
+#                 recepy_image = recipe['image'],
+#                 recepy_used_ingredient_count = recipe['usedIngredientCount'],
+#                 recepy_missed_ingredient_count = recipe['missedIngredientCount'],
+#             )
+#             print(f"Recepy {r.recepy_title} saved with used ingredient  : {r.recepy_used_ingredient_count} ,and missed ingredients: {r.recepy_missed_ingredient_count}.")
         
-            print('----Recepy Ingredients...')
-            print(f" --Missed Ingredients")
-        except Exception as e:
-                logging.error(f"Error occurred while creating Recepy: {e}")
-                continue
-        try:
-            for ingredient_data in recipe['missedIngredients']:
+#             print('----Recepy Ingredients...')
+#             print(f" --Missed Ingredients")
+#         except Exception as e:
+#                 logging.error(f"Error occurred while creating Recepy: {e}")
+#                 continue
+#         try:
+#             for ingredient_data in recipe['missedIngredients']:
             
-                print(f" recepy: {r}")
-                print(f" id : {ingredient_data['id']}")
-                print(f" amount {ingredient_data['amount']}")
-                print(f" unit : {ingredient_data['unit']}")
-                print(f" name : {ingredient_data['name']}")
-                print(f" meta : {ingredient_data['meta']}")
-                print(f" image : {ingredient_data['image']}")
+#                 print(f" recepy: {r}")
+#                 print(f" id : {ingredient_data['id']}")
+#                 print(f" amount {ingredient_data['amount']}")
+#                 print(f" unit : {ingredient_data['unit']}")
+#                 print(f" name : {ingredient_data['name']}")
+#                 print(f" meta : {ingredient_data['meta']}")
+#                 print(f" image : {ingredient_data['image']}")
 
-                ing = IngredientRecepy.objects.create(
-                    ingrecepy_recepy=r,
-                    ingrecepy_id_ingredientrecepy=ingredient_data['id'],
-                    ingrecepy_amount=ingredient_data['amount'],
-                    ingrecepy_unit=ingredient_data['unit'],
-                    ingrecepy_name=ingredient_data['name'],
-                    ingrecepy_meta=ingredient_data['meta'],
-                    ingrecepy_image=ingredient_data['image'],
-                    ingrecepy_is_missed=True
-                )
-                print(f"missedIngredient of Recepy {ing.ingrecepy_name}  saved.")
+#                 ing = IngredientRecepy.objects.create(
+#                     ingrecepy_recepy=r,
+#                     ingrecepy_id_ingredientrecepy=ingredient_data['id'],
+#                     ingrecepy_amount=ingredient_data['amount'],
+#                     ingrecepy_unit=ingredient_data['unit'],
+#                     ingrecepy_name=ingredient_data['name'],
+#                     ingrecepy_meta=ingredient_data['meta'],
+#                     ingrecepy_image=ingredient_data['image'],
+#                     ingrecepy_is_missed=True
+#                 )
+#                 print(f"missedIngredient of Recepy {ing.ingrecepy_name}  saved.")
         
-            print(f" --Used Ingredients")
-            for ingredient_data in recipe['usedIngredients']:
-                print(f" recepy: {r}")
-                print(f" id : {ingredient_data['id']}")
-                print(f" amount {ingredient_data['amount']}")
-                print(f" unit : {ingredient_data['unit']}")
-                print(f" name : {ingredient_data['name']}")
-                print(f" meta : {ingredient_data['meta']}")
-                print(f" image : {ingredient_data['image']}")
+#             print(f" --Used Ingredients")
+#             for ingredient_data in recipe['usedIngredients']:
+#                 print(f" recepy: {r}")
+#                 print(f" id : {ingredient_data['id']}")
+#                 print(f" amount {ingredient_data['amount']}")
+#                 print(f" unit : {ingredient_data['unit']}")
+#                 print(f" name : {ingredient_data['name']}")
+#                 print(f" meta : {ingredient_data['meta']}")
+#                 print(f" image : {ingredient_data['image']}")
 
-                IngredientRecepy.objects.create(
-                    ingrecepy_recepy=r,
-                    ingrecepy_id_ingredientrecepy=ingredient_data['id'],
-                    ingrecepy_amount=ingredient_data['amount'],
-                    ingrecepy_unit=ingredient_data['unit'],
-                    ingrecepy_name=ingredient_data['name'],
-                    ingrecepy_meta=ingredient_data['meta'],
-                    ingrecepy_image=ingredient_data['image'],
-                    ingrecepy_is_missed=False
-                )
-                print(f"used Ingredient of Recepy {ing.ingrecepy_name}  saved.")
-        except Exception as e:
-                logging.error(f"Error occurred while creating Recepy: {e}")
-                continue
-        print(f'Recepy saved!')
-    print("\n" + "-"*40 + "\n")
+#                 IngredientRecepy.objects.create(
+#                     ingrecepy_recepy=r,
+#                     ingrecepy_id_ingredientrecepy=ingredient_data['id'],
+#                     ingrecepy_amount=ingredient_data['amount'],
+#                     ingrecepy_unit=ingredient_data['unit'],
+#                     ingrecepy_name=ingredient_data['name'],
+#                     ingrecepy_meta=ingredient_data['meta'],
+#                     ingrecepy_image=ingredient_data['image'],
+#                     ingrecepy_is_missed=False
+#                 )
+#                 print(f"used Ingredient of Recepy {ing.ingrecepy_name}  saved.")
+#         except Exception as e:
+#                 logging.error(f"Error occurred while creating Recepy: {e}")
+#                 continue
+#         print(f'Recepy saved!')
+#     print("\n" + "-"*40 + "\n")
 
 
-test = ['broccoli']
+test = ['garden tomato', 'tomato', 'tomato plant']
 plant = Plant_data.objects.filter(plant_data_gbif_id=2930137).first()
 
 list_id = set()

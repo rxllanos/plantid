@@ -4,6 +4,15 @@ document.addEventListener('DOMContentLoaded', function() {
   buttons.forEach((button) => {
     button.addEventListener("click", handledata);
   });
+
+
+  $(document).ready(function(){
+      $('#carouselExampleCaptions').carousel({
+          interval: 2000,  // Adjust the interval (in milliseconds) to control the slide duration
+          pause: 'hover'   // Pauses the carousel on mouse hover
+      });
+  });
+
   
 });
 
@@ -93,9 +102,10 @@ function handledata(event) {
   }   
 
   if(info=== 'close') {
-      setTimeout(function() {
-        window.location.reload();
-      }, 1000)
+
+    setTimeout(function() {
+      window.location.reload();
+    }, 200)
 }   
 
   if(info=== 'Delete') {
@@ -124,3 +134,5 @@ function handledata(event) {
 } 
    
 };
+
+

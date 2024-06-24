@@ -1,7 +1,6 @@
 from django.db import models
 from accounts.models import CustomUser
 
-
 class Plant(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True, blank=True, related_name="user")
     plant_access_token = models.CharField(default=0000, max_length=255)

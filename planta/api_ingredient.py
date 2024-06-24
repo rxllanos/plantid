@@ -29,8 +29,8 @@ def save_plant_ingredient(plant_data_instance):
             #   common_names_list_instance_exist = [plant.pd_common_names for plant in all_plant_data]
             #   if r.spoon_name not in common_names_list_instance_exist:
                  
-            list_id.add(r.spoon_id_ingredients)  
-            list_name.add(r.spoon_name)  
+              list_id.add(r.spoon_id_ingredients)  
+              list_name.add(r.spoon_name)  
 
         print(f" Set: {list_id}")
         print(f" Set: {list_name}")

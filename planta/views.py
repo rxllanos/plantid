@@ -18,131 +18,129 @@ WeightPerServingSerializer, RecepySerializer, IngredientRecepySerializer,
 class RecepyIngredientAPIView(APIView):
     def get(self, request, pk):
         try:
-            plant = Plant.objects.get(access_token=pk)
-            plantData = Plant_data.objects.get(plant=plant)
-            plantingedient = Ingredient.objects.get(plant=plantData)
-            plantrecepy = Recepy.objects.get(plant=plantingedient)
-            ingedientrecepy = IngredientRecepy.objects.get(recepy=plantrecepy)
-            serializer = IngredientRecepySerializer(ingedientrecepy)
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            plantrecepy = Recepy.objects.get(recepy_id_recepy=pk)
+            ingedientrecepy = IngredientRecepy.objects.filter(ingrecepy_recepy=plantrecepy)
+            serialized_data_list = []
+            for q in ingedientrecepy:
+                serializer = IngredientRecepySerializer(q)
+                serialized_data_list.append(serializer.data)
+                return Response(serialized_data_list, status=status.HTTP_200_OK)   
         except Plant_data.DoesNotExist:
-            return Response({'error': 'Plant not found'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({'error': 'Ingredient not found'}, status=status.HTTP_404_NOT_FOUND)
         
 class RecepyAPIView(APIView):
     def get(self, request, pk):
         try:
-            plant = Plant.objects.get(access_token=pk)
-            plantData = Plant_data.objects.get(plant=plant)
-            plantingedient = Ingredient.objects.get(plant=plantData)
-            plantrecepy = Recepy.objects.get(plant=plantingedient)
-            serializer = RecepySerializer(plantrecepy)
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        except Plant_data.DoesNotExist:
-            return Response({'error': 'Plant not found'}, status=status.HTTP_404_NOT_FOUND)
+            ing = Ingredient.objects.get(ingredient_id_Ingredient=pk)
+            plantrecepy = Recepy.objects.filter(recepy_ingredient=ing)
+            serialized_data_list = []
+            for q in plantrecepy:
+                serializer = RecepySerializer(q)
+                serialized_data_list.append(serializer.data)
+            return Response(serialized_data_list, status=status.HTTP_200_OK)   
+        except Ingredient.DoesNotExist:
+            return Response({'error': 'Ingredient not found'}, status=status.HTTP_404_NOT_FOUND)        
         
 class WeightPerServingAPIView(APIView):
     def get(self, request, pk):
         try:
-            plant = Plant.objects.get(access_token=pk)
-            plantData = Plant_data.objects.get(plant=plant)
-            plantingedient = Ingredient.objects.get(plant=plantData)
-            plantwps = WeightPerServing.objects.get(plant=plantingedient)
+            ing = Ingredient.objects.get(ingredient_id_Ingredient=pk)
+            plantwps = WeightPerServing.objects.get(wps_ingredient=ing)
             serializer = WeightPerServingSerializer(plantwps)
             return Response(serializer.data, status=status.HTTP_200_OK)
-        except Plant_data.DoesNotExist:
-            return Response({'error': 'Plant not found'}, status=status.HTTP_404_NOT_FOUND)
+        except Ingredient.DoesNotExist:
+            return Response({'error': 'Ingredient not found'}, status=status.HTTP_404_NOT_FOUND)    
 
 class CaloricBreakdownAPIView(APIView):
     def get(self, request, pk):
         try:
-            plant = Plant.objects.get(access_token=pk)
-            plantData = Plant_data.objects.get(plant=plant)
-            plantingedient = Ingredient.objects.get(plant=plantData)
-            plantcbd = CaloricBreakdown.objects.get(plant=plantingedient)
+            ing = Ingredient.objects.get(ingredient_id_Ingredient=pk)
+            plantcbd = CaloricBreakdown.objects.get(cb_ingredient=ing)
             serializer = CaloricBreakdownSerializer(plantcbd)
             return Response(serializer.data, status=status.HTTP_200_OK)
-        except Plant_data.DoesNotExist:
-            return Response({'error': 'Plant not found'}, status=status.HTTP_404_NOT_FOUND)
+        except Ingredient.DoesNotExist:
+            return Response({'error': 'Ingredient not found'}, status=status.HTTP_404_NOT_FOUND)    
 
 class FlavonoidAPIView(APIView):
     def get(self, request, pk):
-        try:
-            plant = Plant.objects.get(access_token=pk)
-            plantData = Plant_data.objects.get(plant=plant)
-            plantingedient = Ingredient.objects.get(plant=plantData)
-            plantflavonoid = Flavonoid.objects.get(plant=plantingedient)
-            serializer = FlavonoidSerializer(plantflavonoid)
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        except Plant_data.DoesNotExist:
-            return Response({'error': 'Plant not found'}, status=status.HTTP_404_NOT_FOUND)
+        try:        
+            ing = Ingredient.objects.get(ingredient_id_Ingredient=pk)
+            plantf = Flavonoid.objects.filter(flavonoid_ingredient=ing)
+            serialized_data_list = []
+            for q in plantf:
+                serializer = FlavonoidSerializer(q)
+                serialized_data_list.append(serializer.data)
+            return Response(serialized_data_list, status=status.HTTP_200_OK)               
+        except Ingredient.DoesNotExist:
+            return Response({'error': 'Ingredient not found'}, status=status.HTTP_404_NOT_FOUND)    
 
 class PropertyAPIView(APIView):
     def get(self, request, pk):
-        try:
-            plant = Plant.objects.get(access_token=pk)
-            plantData = Plant_data.objects.get(plant=plant)
-            plantingedient = Ingredient.objects.get(plant=plantData)
-            plantnutrient = Property.objects.get(plant=plantingedient)
-            serializer = PropertySerializer(plantnutrient)
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        except Plant_data.DoesNotExist:
-            return Response({'error': 'Plant not found'}, status=status.HTTP_404_NOT_FOUND)
+        try:        
+            ing = Ingredient.objects.get(ingredient_id_Ingredient=pk)
+            plantproperty = Property.objects.filter(property_ingredient=ing)
+            serialized_data_list = []
+            for q in plantproperty:
+                serializer = PropertySerializer(q)
+                serialized_data_list.append(serializer.data)
+            return Response(serialized_data_list, status=status.HTTP_200_OK)    
+        except Ingredient.DoesNotExist:
+            return Response({'error': 'Ingredient not found'}, status=status.HTTP_404_NOT_FOUND)    
 
 class NutrientAPIView(APIView):
     def get(self, request, pk):
         try:
-            plant = Plant.objects.get(access_token=pk)
-            plantData = Plant_data.objects.get(plant=plant)
-            plantingedient = Ingredient.objects.get(plant=plantData)
-            plantnutrient = NutrientDetail.objects.get(plant=plantingedient)
-            serializer = NutrientSerializer(plantnutrient)
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        except Plant_data.DoesNotExist:
-            return Response({'error': 'Plant not found'}, status=status.HTTP_404_NOT_FOUND)
+            ing = Ingredient.objects.get(ingredient_id_Ingredient=pk)
+            plantnutrient = NutrientDetail.objects.filter(nutrient_ingredient=ing)
+            serialized_data_list = []
+            for q in plantnutrient:
+                serializer = NutrientSerializer(q)
+                serialized_data_list.append(serializer.data)
+            return Response(serialized_data_list, status=status.HTTP_200_OK)
+        except Ingredient.DoesNotExist:
+            return Response({'error': 'Ingredient not found'}, status=status.HTTP_404_NOT_FOUND)    
 
 class PlantIngredientAPIView(APIView):
     def get(self, request, pk):
         try:
-            plant = Plant.objects.get(access_token=pk)
-            plantData = Plant_data.objects.get(plant=plant)
-            plantingedient = Ingredient.objects.get(plant=plantData)
+            plant = Plant.objects.get(plant_access_token=pk)
+            plantingedient = Ingredient.objects.get(ingredient_plant__plant_data_plant=plant)
             serializer = IngredientSerializer(plantingedient)
             return Response(serializer.data, status=status.HTTP_200_OK)
-        except Plant_data.DoesNotExist:
-            return Response({'error': 'Plant not found'}, status=status.HTTP_404_NOT_FOUND)
+        except Ingredient.DoesNotExist:
+            return Response({'error': 'Ingredient not found'}, status=status.HTTP_404_NOT_FOUND)    
 
 class PlantDeseaseAPIView(APIView):
     def get(self, request, pk):
         try:
-            plant = Plant.objects.get(access_token=pk)
-            plantHealth = HealthAssessment.objects.get(plant=plant)
-            queryset = DiseaseSuggestion.objects.filter(health_assessment=plantHealth)
+            plant = Plant.objects.get(plant_access_token=pk)
+            queryset = DiseaseSuggestion.objects.filter(disease_health_assessment__health_plant=plant)
             serialized_data_list = []
             for q in queryset:
                 serializer = DeseaseSuggestionSerializer(q)
                 serialized_data_list.append(serializer.data)
             return Response(serialized_data_list, status=status.HTTP_200_OK)
-        except Plant_data.DoesNotExist:
+        except Plant.DoesNotExist:
             return Response({'error': 'Plant not found'}, status=status.HTTP_404_NOT_FOUND)
 
 class PlantHealthAPIView(APIView):
     def get(self, request, pk):
         try:
-            plant = Plant.objects.get(access_token=pk)
-            PlantHealth = HealthAssessment.objects.get(plant=plant)
+            plant = Plant.objects.get(plant_access_token=pk)
+            PlantHealth = HealthAssessment.objects.get(health_plant=plant)
             serializer = HealthSerializer(PlantHealth)
             return Response(serializer.data, status=status.HTTP_200_OK)
-        except Plant_data.DoesNotExist:
+        except Plant.DoesNotExist:
             return Response({'error': 'Plant not found'}, status=status.HTTP_404_NOT_FOUND)
 
 class PlantDataAPIView(APIView):
     def get(self, request, pk):
         try:
-            plant = Plant.objects.get(access_token=pk)
-            PlantData = Plant_data.objects.get(plant=plant)
+            plant = Plant.objects.get(plant_access_token=pk)
+            PlantData = Plant_data.objects.get(plant_data_plant=plant)
             serializer = PlantDataSerializer(PlantData)
             return Response(serializer.data, status=status.HTTP_200_OK)
-        except Plant_data.DoesNotExist:
+        except Plant.DoesNotExist:
             return Response({'error': 'Plant not found'}, status=status.HTTP_404_NOT_FOUND)
 
 
@@ -168,7 +166,7 @@ def add(request):
 class PlantAPIView(APIView):
     def delete(self, request, pk):
         try:
-            plant = Plant.objects.get(access_token=pk)
+            plant = Plant.objects.get(plant_access_token=pk)
             plant.delete()
             return render(request, "home")
         except Plant.DoesNotExist:

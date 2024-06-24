@@ -18,6 +18,6 @@ urlpatterns = [
     path('api/plantaf/<str:pk>/', FlavonoidAPIView.as_view(), name='plantafapiview'),
     path('api/plantacbd/<str:pk>/', CaloricBreakdownAPIView.as_view(), name='plantacbdapiview'),
     path('api/plantawps/<str:pk>/', WeightPerServingAPIView.as_view(), name='plantawpsapiview'),
-    path('api/plantarecepy/<str:pk>/', RecepyAPIView.as_view(), name='plantarecepyapiview'),
-    path('api/plantarecepyingredient/<str:pk>/', RecepyIngredientAPIView.as_view(), name='plantarecepyingredientapiview'),
+    path('api/ingredientrecepy/<str:pk>/', RecepyAPIView.as_view(), name='plantarecepyapiview'),
+    path('api/recepyingredient/<str:pk>/', RecepyIngredientAPIView.as_view(), name='plantarecepyingredientapiview'),
 ]
