@@ -1,23 +1,22 @@
 document.addEventListener('DOMContentLoaded', function() {
   document.querySelector('#plant-data').style.display = 'none';
+  document.querySelector('#carouselExampleCaptions').style.display = 'none';
   const buttons = document.querySelectorAll(".btn");
   buttons.forEach((button) => {
     button.addEventListener("click", handledata);
   });
-
 
   $(document).ready(function(){
       $('#carouselExampleCaptions').carousel({
           interval: 2000,  // Adjust the interval (in milliseconds) to control the slide duration
           pause: 'hover'   // Pauses the carousel on mouse hover
       });
-  });
-
-  
+  });  
 });
 
 function handledata(event) {
   document.querySelector('#plant-data').style.display = 'none';
+  document.querySelector('#carouselExampleCaptions').style.display = 'none';
   const button = event.target;
   const buttonId = button.dataset.id; 
   const info = button.dataset.info;  
@@ -48,6 +47,11 @@ function handledata(event) {
     .catch(error => {
       console.log('Error:', error);
   });
+  }   
+
+  if(info=== 'Recepy') {
+    document.querySelector('#carouselExampleCaptions').style.display = 'block';
+
   }   
 
 
@@ -106,6 +110,8 @@ function handledata(event) {
     setTimeout(function() {
       window.location.reload();
     }, 200)
+
+
 }   
 
   if(info=== 'Delete') {
