@@ -5,6 +5,13 @@ document.addEventListener('DOMContentLoaded', function() {
   buttons.forEach((button) => {
     button.addEventListener("click", handledata);
   });
+  $(document).on('click', function (e) {
+    // Check if the clicked element is not part of the accordion
+    if (!$(e.target).closest('.accordion, .btn-link').length) {
+        $('.collapse').collapse('hide'); // Close all accordions
+    }
+});
+
 
   $(document).ready(function(){
       $('#carouselExampleCaptions').carousel({
