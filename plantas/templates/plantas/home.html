@@ -41,6 +41,7 @@ Home
           </div>
       </div>
   </div>
+
   <a class="carousel-control-prev" href="#carouselExampleCaptions" role="button" data-slide="prev">
       <span class="carousel-control-prev-icon" aria-hidden="true"></span>
       <span class="sr-only">Previous</span>
@@ -55,71 +56,39 @@ Home
 <h3>Plants</h3>
 
 <div class="container" style="margin-top:20px;">
-    <div class="row">
-      {% if user.is_authenticated %}
-        {% for item in plants_with_details %}
+  <div class="row">
+    {% if user.is_authenticated %}
+      {% for item in plants_with_details %}
         <div class="col-md-6">
-          <div class="card-header">
-            <h6>
-              Plant Names:
-              <small class="text-body-secondary">
-                {{ item.common_names_list|join:", " }} 
-              </small>
-            </h6>
-          </div>
-          <div class="card-body">
-            <img class="img-fluid" src="{{ item.plant_data.plant_data_plant.plant_image.url }}" alt="Logo">  
-            <button class="btn btn-primary" type="button" data-id={{ item.plant_data.plant_data_plant.plant_access_token }} data-info='more-data'>More info?</button>
-            <button class="btn btn-secondary" type="button" data-id={{ item.plant_data.plant_data_plant.plant_access_token }} data-info='Health'>Health</button>
-            <button class="btn btn-danger" type="button" data-id={{ item.plant_data.plant_data_plant.plant_access_token }} data-info='Delete'>Delete</button>                
-            
-            {% if item.plant_data.plant_data_edible_parts %}
-              {% for ingredient_detail in item.ingredient_details %}
-              <div class="accordion" id="accordion{{ forloop.counter }}">
-                  <div class="card">
-                      <div class="card-header" id="heading{{ forloop.counter }}">
-                          <h5 class="mb-0">
-                              <h6>Ingredient: {{ ingredient_detail.ingredient.ingredient_original_name }}</h6>
-                              <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapse{{ forloop.counter }}" aria-expanded="true" aria-controls="collapse{{ forloop.counter }}">
-                                  <p>Nutritional facts</p>
-                              </button>
-                          </h5>
-                      </div>
-                      <div id="collapse{{ forloop.counter }}" class="collapse" aria-labelledby="heading{{ forloop.counter }}" data-parent="#accordion{{ forloop.counter }}">
-                          <div class="card-body small-font">
-                              <h6>Nutrients</h6>
-                              <ul>
-                                  {% for nutrient in ingredient_detail.nutrients %}
-                                      <li>{{ nutrient }}</li>
-                                  {% endfor %}
-                              </ul>
-                              <h6>Properties</h6>
-                              <ul>
-                                  {% for property in ingredient_detail.properties %}
-                                      <li>{{ property }}</li>
-                                  {% endfor %}
-                              </ul>
-                              <h6>Flavonoids</h6>
-                              <ul>
-                                  {% for flavonoid in ingredient_detail.flavonoids %}
-                                      <li>{{ flavonoid }}</li>
-                                  {% endfor %}
-                              </ul>
-                              <h6>Caloric Breakdown</h6>
-                              <p>{{ ingredient_detail.caloric_breakdown }}</p>
-                          </div>
-                      </div>
-                  </div>
+          <div class="card">
+            <div class="card__header">
+              <div class="title-background">
+                <div class="title">
+                  Common Names: {{ item.common_names_list|join:", " }} 
+                </div>                
               </div>
-              {% endfor %}
-
-
-
-
-            {% else %}
-              <p> Not eatable! </p>
-            {% endif %}
-          </div>
+            </div>
+            <div class="card-body">
+              <div class="small-font" style="margin-bottom: 5px;">
+                <button class="card__btn" type="button" data-id={{ item.plant_data.plant_data_plant.plant_access_token }} data-info='more-data'>More info?</button>
+                <button class="card__btn" type="button" data-id={{ item.plant_data.plant_data_plant.plant_access_token }} data-info='Delete'>Delete</button>                           
+              </div>
+              <img class="card__img" src="{{ item.plant_data.plant_data_plant.plant_image.url }}" alt="Logo">  
+               {% if item.plant_data.plant_data_edible_parts %}
+                  <div style="margin-top: 5px;">
+                    <button class="card__btn">recepies/nutrition: 
+                      <span class="small-font">
+                      {% for ing in item.ingredient_details %}  
+                        {{ ing.ingredient.ingredient_original_name }} - 
+                      {% endfor %}  
+                      </span>
+                    </button>    
+                  </div>                
+                {% else %}
+                  <p> Plant Not eatable, no info on recepies or nutritional facts! </p>
+                {% endif %}
+            </div>
+          </div>            
         </div>
       {% endfor %}
     {% endif %}
@@ -149,12 +118,16 @@ Home
     <div class="card">
         <img class="card__img" id="image" src="" alt="Image">
         <div class="card__content">
-            <h1 class="card__header" id="name"></h1>
+            <h6 class="card__header" id="name"></h6>
             <p class="card__text" id="text"> <strong></strong> </p>
             <a class="card__text" id="wiki" href=""></a>
+            <h6 class="card__header" id="name1"></h6>
+            <p class="card__text" id="text1"> <strong></strong> </p>
+            
         </div>
     </div>
 </div>
+
 
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-scrollable">
@@ -164,9 +137,6 @@ Home
         </div>
         <div class="modal-body">
           <ul id="disease-list"></ul>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-info="close">Close</button>
         </div>
       </div>
     </div>

@@ -120,3 +120,81 @@ body{
 .small-font {
     font-size: 0.8rem; /* Adjust the font size as needed */
 }
+
+
+.title {
+    font-family: 'Arial', sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    margin: 3px;
+    letter-spacing: 2px;
+}
+
+.title {
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.title-background {
+    background: linear-gradient(90deg, #ff7e5f, #feb47b);
+    padding: 5px;
+    border-radius: 10px;
+    display: inline-block;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+#wiki {
+    background-color: #f0f0f0;
+    padding: 2px;
+    border-radius: 1px;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+#wiki a {
+    color: #1a0dab;
+    text-decoration: none;
+    font-size: 4px;
+    font-weight: bold;
+}
+
+
+#text, #text1 {
+    font-family: 'Georgia', serif; /* Elegant, classic font */
+    font-size: 6px; /* Larger font size for readability */
+    color: #333; /* Dark gray color for the text */
+    background-color: #f9f9f9; /* Light background color */
+    padding: 1px; /* Adds space inside the paragraph */
+    border-left: 1px solid #3498db; /* Adds a stylish left border */
+    border-radius: 2px; /* Rounds the corners */
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow */
+    margin: 1px auto; /* Centers the paragraph */
+    text-align: justify; /* Justifies the text for a clean look */
+}
+
+h6 {
+    font-size: 4px;
+    font-weight: 200;
+    color: #333;
+    margin-bottom: 1px;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+}
+
+h3 {
+    font-family: 'Georgia', serif; /* Choose a stylish font */
+    font-size: 1.5rem; /* Adjust size as needed */
+    color: #2c3e50; /* Dark blue color */
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+    letter-spacing: 2px; /* Space out letters */
+    font-weight: bold; /* Make the text bold */
+    background: linear-gradient(45deg, #ff6b6b, #f7c32e); /* Gradient background */
+    background-clip: text; /* Clip the background to the text */
+    -webkit-text-fill-color: transparent; /* Make the text itself transparent */
+    padding: 10px; /* Add some padding */
+    border-radius: 5px; /* Rounded corners */
+    border: 2px solid #f7c32e; /* Gold border */
+    display: inline-block; /* Inline-block to control padding */
+    text-transform: uppercase; /* Make text uppercase */
+}

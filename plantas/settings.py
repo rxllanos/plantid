@@ -11,6 +11,7 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1','lasmirlas.azurewebsites.net']
 
 CSRF_TRUSTED_ORIGINS = [
     'https://lasmirlas.azurewebsites.net',
+    'http://127.0.0.1:8000/'
 ]
 
 CORS_ALLOWED_ORIGINS = [
