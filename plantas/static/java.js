@@ -1,28 +1,13 @@
 document.addEventListener('DOMContentLoaded', function() {
   document.querySelector('#plant-data').style.display = 'none';
-  document.querySelector('#carouselExampleCaptions').style.display = 'none';
   const buttons = document.querySelectorAll(".card__btn");
   buttons.forEach((button) => {
     button.addEventListener("click", handledata);
   });
-  $(document).on('click', function (e) {
-    if (!$(e.target).closest('.accordion, .btn-link').length) {
-        $('.collapse').collapse('hide'); // Close all accordions
-    }
-});
-
-
-  $(document).ready(function(){
-      $('#carouselExampleCaptions').carousel({
-          interval: 2000,  // Adjust the interval (in milliseconds) to control the slide duration
-          pause: 'hover'   // Pauses the carousel on mouse hover
-      });
-  });  
 });
 
 function handledata(event) {
   document.querySelector('#plant-data').style.display = 'none';
-  document.querySelector('#carouselExampleCaptions').style.display = 'none';
   const button = event.target;
   const buttonId = button.dataset.id; 
   const info = button.dataset.info;  
@@ -45,6 +30,7 @@ function handledata(event) {
 
   if(info=== 'more-data') {
     document.querySelector('#plant-data').style.display = 'block';
+
     fetch(`/planta/api/plantadata/${buttonId}/`)
     .then(response => response.json())
     .then(data => {
@@ -54,64 +40,59 @@ function handledata(event) {
     wiki.href = data.plant_data_url;
     plantImageElement.src = data.plant_data_image;
     })
+
     .catch(error => {
       console.log('Error:', error);
-  });
+    });
 
-  fetch(`/planta/api/plantahealth/${buttonId}/`)
-  .then(response => response.json())
-  .then(data => { 
-  const name = document.getElementById('name');
-  const percentage = data.health_is_healthy_probability;
-
-  const formattedPercentage = (percentage).toLocaleString(undefined, {
-    style: 'percent',
-    minimumFractionDigits: 2,
-  });
-  plantImageElement.innerHTML = '';
-  name1.textContent = `The plant is healthy? ${data.health_is_healthy_binary}.`;  
-  text1.textContent = `probability of healthy: ${formattedPercentage}`;  
-  if(data.health_is_healthy_binary===false){
-    const moreInfoButton = document.createElement('button');
-    moreInfoButton.textContent = 'Click for Disease data';
-    moreInfoButton.className = 'card__btn'; 
-    moreInfoButton.dataset.bsToggle = 'modal'; 
-    moreInfoButton.dataset.bsTarget = '#staticBackdrop'; 
-    text1.appendChild(moreInfoButton); 
-
-    const modal1 = new bootstrap.Modal(document.getElementById('staticBackdrop'));
-    fetch(`/planta/api/plantadesease/${buttonId}/`)
+    fetch(`/planta/api/plantahealth/${buttonId}/`)
     .then(response => response.json())
     .then(data => { 
-    data.forEach(disease => {
-      const listItem = document.createElement('li');
-      listItem.textContent = `Name: ${disease.disease_name} Description: ${disease.disease_description}.`;
-      disease_list.appendChild(listItem);
+    const name = document.getElementById('name');
+    const percentage = data.health_is_healthy_probability;
+    const formattedPercentage = (percentage).toLocaleString(undefined, {
+      style: 'percent',
+      minimumFractionDigits: 2,
     });
-    
-    })
-    .catch(error => {
-      console.log('Error:', error);
-    });    
+    plantImageElement.innerHTML = '';
+    name1.textContent = `The plant is healthy? ${data.health_is_healthy_binary}.`;  
+    text1.textContent = `probability of healthy: ${formattedPercentage}`;  
+      if(data.health_is_healthy_binary===false){
+        const moreInfoButton = document.createElement('button');
+        moreInfoButton.textContent = 'Click for Disease data';
+        moreInfoButton.className = 'card__btn'; 
+        moreInfoButton.dataset.bsToggle = 'modal'; 
+        moreInfoButton.dataset.bsTarget = '#staticBackdrop'; 
+        text1.appendChild(moreInfoButton); 
 
-    moreInfoButton.addEventListener('click', () => {
-      modal1.show(); 
-    });
-    
+        const modal1 = new bootstrap.Modal(document.getElementById('staticBackdrop'));
+          fetch(`/planta/api/plantadesease/${buttonId}/`)
+          .then(response => response.json())
+          .then(data => { 
+          data.forEach(disease => {
+            const listItem = document.createElement('li');
+            listItem.textContent = `Name: ${disease.disease_name} Description: ${disease.disease_description}.`;
+            disease_list.appendChild(listItem);
+          });
+          })
+        .catch(error => {
+          console.log('Error:', error);
+      });    
+
+        moreInfoButton.addEventListener('click', () => {
+          modal1.show(); 
+        });
+          
+    }
+      })    
+
+  }   
+
+  if(info=== 'close') {
+      setTimeout(function() {
+        window.location.reload();
+      }, 3000)
   }
-  })    
-  .catch(error => {
-    console.log('Error:', error);
-  });
-
-
-  }   
-
-  if(info=== 'Recepy') {
-    document.querySelector('#carouselExampleCaptions').style.display = 'block';
-
-  }   
-
 
   if(info=== 'Delete') {
     const shouldDelete = confirm('Are you sure you want to delete this plant?');
@@ -135,8 +116,8 @@ function handledata(event) {
   }
       setTimeout(function() {
         window.location.reload();
-      }, 3000)
-} 
+      }, 100)
+  } 
    
 };
 

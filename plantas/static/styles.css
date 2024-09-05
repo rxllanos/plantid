@@ -51,15 +51,12 @@
 }
 
 body{
-    margin: 20px;
+    margin: 10px;
     text-align: center;
-    padding: 20px;
+    padding: 10px;
     background-color: rgb(215, 227, 250);
 }
 
-.body1{
-    padding: 20px;
-}
 
 .col-sm-3{
     margin: 2%;
@@ -124,7 +121,7 @@ body{
 
 .title {
     font-family: 'Arial', sans-serif;
-    font-size: 20px;
+    font-size: 15px;
     font-weight: bold;
     color: #333;
     text-align: center;
@@ -160,26 +157,36 @@ body{
 }
 
 
-#text, #text1 {
-    font-family: 'Georgia', serif; /* Elegant, classic font */
-    font-size: 6px; /* Larger font size for readability */
-    color: #333; /* Dark gray color for the text */
-    background-color: #f9f9f9; /* Light background color */
-    padding: 1px; /* Adds space inside the paragraph */
-    border-left: 1px solid #3498db; /* Adds a stylish left border */
-    border-radius: 2px; /* Rounds the corners */
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow */
-    margin: 1px auto; /* Centers the paragraph */
-    text-align: justify; /* Justifies the text for a clean look */
+.styled-text {
+    font-family: 'Georgia', serif;
+    font-size: 18px;
+    line-height: 1.6;
+    color: #333;
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-left: 5px solid #3498db;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 8px auto;
+    text-align: justify;
 }
 
-h6 {
-    font-size: 4px;
-    font-weight: 200;
+.styled-heading {
+    font-family: 'Georgia', serif;
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 1.4;
     color: #333;
-    margin-bottom: 1px;
-    letter-spacing: 0.5px;
-    text-transform: uppercase;
+    background-color: #f9f9f9;
+    padding: 10px;
+    border-left: 4px solid #3498db;
+    border-radius: 8px;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 8px auto;
+    text-align: left;
+    font-weight: bold;
 }
 
 h3 {
@@ -197,4 +204,15 @@ h3 {
     border: 2px solid #f7c32e; /* Gold border */
     display: inline-block; /* Inline-block to control padding */
     text-transform: uppercase; /* Make text uppercase */
+}
+
+.dropdown-menu  {
+    position: relative;
+}
+
+.dropdown-menu {
+    top: 0;
+    left: 100%;
+    margin-left: .1rem;
+    margin-right: .1rem;
 }
