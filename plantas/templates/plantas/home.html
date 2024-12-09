@@ -9,50 +9,58 @@ Home
 {% endblock %}
 
 {% block content-header %}
-<h3 style="margin:20px;">Plants</h3>
-
+<h3>Plants</h3>
 {% endblock %} 
 
 {% block content %}
-{% if user.is_authenticated %}
-  {% for item in plants_with_details %}
-  <div class="card">
-    <div class="card__header">
-      <div class="title-background">
-        <div class="title">
-          <p>{{ item.common_names_list|join:", " |upper }}. </p>
-        </div>                
-      </div>
-    </div>
 
-    <div class="card-body">
-      <img class="card__img" src="{{ item.plant_data.plant_data_plant.plant_image.url }}" alt="Logo">  
-      <hr style="border: 1px solid black; width: 80%;">
-      <div class="small-font" class="btn-group">
-        <button class="card__btn" type="button" data-id={{ item.plant_data.plant_data_plant.plant_access_token }} data-info='more-data'>More info?</button>
-        <button class="card__btn" type="button" data-id={{ item.plant_data.plant_data_plant.plant_access_token }} data-info='Delete'>Delete</button>                           
-                    
-        {% if item.plant_data.plant_data_edible_parts %}
-          <div class="btn-group">
-            <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Nutrition
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              {% for ing in item.ingredient_details %} 
-                <li class="dropdown-item d-flex justify-content-between align-items-center">
-                  <a class="dropdown-item" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
-                    {{ ing.ingredient.ingredient_original_name }}
-                  </a>
-                </li>
-              {% endfor %}
-            </ul>
-          </div>
-      {% else %}
-        <p> Plant Not eatable, no info on recepies or nutritional facts! </p>
-      {% endif %}
-    </div>
-  </div>            
+{% if user.is_authenticated %}
+<div class="row row-cols-1 row-cols-md-2 g-4">
+  <div class="col">
+  {% for item in plants_with_details %}
+    <div class="card">
+      <div class="card__header">
+        <div class="title-background">
+          <div class="title">
+            <p>{{ item.common_names_list|join:", " |upper }}. </p>
+          </div>                
+        </div>
+      </div>
+
+      <div class="card-body">
+        <img class="card__img" src="{{ item.plant_data.plant_data_plant.plant_image.url }}" alt="Logo">  
+        <hr style="border: 1px solid black; width: 80%;">
+        <div class="small-font" class="btn-group">
+          <!-- <button class="card__btn" type="button" data-id={{ item.plant_data.plant_data_plant.plant_access_token }} data-info='more-data'>More info?</button> -->
+          <button class="card__btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop" data-id={{ item.plant_data.plant_data_plant.plant_access_token }} data-info='more-data'>info</button>
+          <button class="card__btn" type="button" data-id={{ item.plant_data.plant_data_plant.plant_access_token }} data-info='Delete'>Delete</button>                           
+                      
+          {% if item.plant_data.plant_data_edible_parts %}
+            <div class="btn-group">
+              <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Nutrition
+              </button>
+              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                {% for ing in item.ingredient_details %} 
+                  <li class="dropdown-item d-flex justify-content-between align-items-center">
+                    <a class="dropdown-item" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
+                      {{ ing.ingredient.ingredient_original_name }}
+                    </a>
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+        {% else %}
+          <p> Plant Not eatable, no info on recepies or nutritional facts! </p>
+        {% endif %}
+      </div>
+      <div class="card-footer">
+        <small class="text-body-secondary">Last updated 3 mins ago</small>
+      </div>
+    </div>           
   {% endfor %}
+  </div>
+</div>  
 {% endif %}
 
 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
@@ -70,6 +78,33 @@ Home
       </div>
     </div>
   </div>
+
+  
+
+  <div class="offcanvas offcanvas-top" tabindex="-1" id="offcanvasTop" aria-labelledby="offcanvasTopLabel">
+    <div class="offcanvas-header">
+      <h5 class="offcanvas-title"  id="name"></h5>
+      <div class="offcanvas-body" >
+        <p  class="styled-text" id="text"></p>
+      </div>
+      <h5 class="offcanvas-title"  id="name1"></h5>
+      <div class="offcanvas-body">
+        <p  class="styled-text" id="text1"></p>
+      </div>
+        <div class="card text-bg-dark" id="plant-data">
+           <img class="card__img" id="image" src="" alt="Image">
+          <div class="card-img-overlay">
+            <a id="wiki" href=""></a>
+          </div>
+        </div>
+      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body" class="styled-text">
+      <p  id="text"></p>
+      <p  id="text1"></p>
+    </div>
+  </div>
+
 
   <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
     <div class="offcanvas-header">
@@ -91,7 +126,6 @@ Home
       </div>
     </div>
   </div>
-
 {% endblock %}  
 
 {% block paging %}
@@ -111,19 +145,6 @@ Home
 </nav>
 {% endblock %}   
 
-{% block content2 %}
-<div id="plant-data">
-  <div class="card">
-    <img class="card__img" id="image" src="" alt="Image">
-    <div class="card__content">
-        <div id="name" class="styled-heading"></div>
-        <div id="text" class="styled-text"> </div>
-        <a id="wiki" href=""></a>
-        <div id="name1" class="styled-heading"></div>
-        <div id="text1" class="styled-text"> </div>
-    </div>
-  </div>
-</div>
-{% endblock %} 
+
 
 
