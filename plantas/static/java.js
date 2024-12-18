@@ -1,5 +1,4 @@
 document.addEventListener('DOMContentLoaded', function() {
-  document.querySelector('#plant-data').style.display = 'none';
   const buttons = document.querySelectorAll(".card__btn");
   buttons.forEach((button) => {
     button.addEventListener("click", handledata);
@@ -7,18 +6,19 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function handledata(event) {
-  document.querySelector('#plant-data').style.display = 'none';
+
   const button = event.target;
   const buttonId = button.dataset.id; 
   const info = button.dataset.info;  
-  console.log("id:" + buttonId);
-  console.log("info" + info);
+  console.log("id....  " + buttonId);
+  console.log("info....  " + info);
   const plantImageElement = document.getElementById('image');   
   const name = document.getElementById('name');  
   const name1 = document.getElementById('name1');  
   const text = document.getElementById('text');
   const text1 = document.getElementById('text1');
   const wiki = document.getElementById('wiki');
+  const title_ingredient = document.getElementById('title_ingredient');
   const disease_list = document.getElementById('disease-list');
   plantImageElement.scr = '';
   name.innerHTML = '';
@@ -26,10 +26,10 @@ function handledata(event) {
   text.innerHTML = '';
   text1.innerHTML = '';
   wiki.innerHTML = '';
+  title_ingredient.innerHTML = '';
   disease_list.innerHTML = '';
 
   if(info=== 'more-data') {
-    document.querySelector('#plant-data').style.display = 'block';
 
     fetch(`/planta/api/plantadata/${buttonId}/`)
     .then(response => response.json())
@@ -59,7 +59,7 @@ function handledata(event) {
     text1.textContent = `probability of healthy: ${formattedPercentage}`;  
       if(data.health_is_healthy_binary===false){
         const moreInfoButton = document.createElement('button');
-        moreInfoButton.textContent = 'Click for Disease data';
+        moreInfoButton.textContent = 'Diseases';
         moreInfoButton.className = 'card__btn'; 
         moreInfoButton.dataset.bsToggle = 'modal'; 
         moreInfoButton.dataset.bsTarget = '#staticBackdrop'; 
@@ -87,6 +87,10 @@ function handledata(event) {
       })    
 
   }   
+
+  if(info=== 'more_data2') {
+    title_ingredient.textContent = `More info on : `+ buttonId ;
+}
 
   if(info=== 'close') {
       setTimeout(function() {

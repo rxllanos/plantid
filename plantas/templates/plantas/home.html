@@ -43,9 +43,8 @@ Home
               <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 {% for ing in item.ingredient_details %} 
                   <li class="dropdown-item d-flex justify-content-between align-items-center">
-                    <a class="dropdown-item" data-bs-toggle="offcanvas" href="#offcanvasExample" role="button" aria-controls="offcanvasExample">
-                      {{ ing.ingredient.ingredient_original_name }}
-                    </a>
+                    <button class="card__btn" type="button" data-bs-toggle="offcanvas" 
+                    href="#offcanvasExample" aria-controls="offcanvasExample" data-id={{ ing.ingredient.ingredient_original_name }} data-info='more_data2'>{{ ing.ingredient.ingredient_original_name }}</button> 
                   </li>
                 {% endfor %}
               </ul>
@@ -79,36 +78,31 @@ Home
     </div>
   </div>
 
-  
-
   <div class="offcanvas offcanvas-top" tabindex="-1" id="offcanvasTop" aria-labelledby="offcanvasTopLabel">
-    <div class="offcanvas-header">
-      <h5 class="offcanvas-title"  id="name"></h5>
-      <div class="offcanvas-body" >
-        <p  class="styled-text" id="text"></p>
-      </div>
-      <h5 class="offcanvas-title"  id="name1"></h5>
-      <div class="offcanvas-body">
-        <p  class="styled-text" id="text1"></p>
-      </div>
-        <div class="card text-bg-dark" id="plant-data">
-           <img class="card__img" id="image" src="" alt="Image">
-          <div class="card-img-overlay">
-            <a id="wiki" href=""></a>
+      <div class="clearfix">
+        <img class="col-md-4 float-md-end mb-2 ms-md-2" id="image" src="" alt="Image">
+        <p>
+          <h5 class="offcanvas-title"  id="name"></h5>
+          <div class="offcanvas-body" id="text">
           </div>
-        </div>
-      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    <div class="offcanvas-body" class="styled-text">
-      <p  id="text"></p>
-      <p  id="text1"></p>
+          <a id="wiki" href=""></a>      
+        </p>
+        <p>
+          <h5 class="offcanvas-title"  id="name1"></h5>
+          <div class="offcanvas-body" id="text1">
+          </div>
+        </p>   
+        <p>
+         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>  
+        </p>     
     </div>
   </div>
 
-
   <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
     <div class="offcanvas-header">
-      <h5 class="offcanvas-title" id="offcanvasExampleLabel">More info on each ingredient!</h5>
+      <h5 class="offcanvas-title" id="offcanvasExampleLabel">
+        <div id="title_ingredient"></div>
+      </h5>
       <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
@@ -126,6 +120,11 @@ Home
       </div>
     </div>
   </div>
+
+
+
+
+
 {% endblock %}  
 
 {% block paging %}
