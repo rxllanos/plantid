@@ -30,21 +30,19 @@ Home
       <div class="card-body">
         <img class="card__img" src="{{ item.plant_data.plant_data_plant.plant_image.url }}" alt="Logo">  
         <hr style="border: 1px solid black; width: 80%;">
-        <div class="small-font" class="btn-group">
-          <!-- <button class="card__btn" type="button" data-id={{ item.plant_data.plant_data_plant.plant_access_token }} data-info='more-data'>More info?</button> -->
-          <button class="card__btn" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasTop" aria-controls="offcanvasTop" data-id={{ item.plant_data.plant_data_plant.plant_access_token }} data-info='more-data'>info</button>
-          <button class="card__btn" type="button" data-id={{ item.plant_data.plant_data_plant.plant_access_token }} data-info='Delete'>Delete</button>                           
-                      
+        <div class="small-font" class="btn-group">                     
+          <button type="button" class="card__btn" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-id={{ item.plant_data.plant_data_plant.plant_access_token }} data-bs-info='Plant_Information' >Information</button>
           {% if item.plant_data.plant_data_edible_parts %}
             <div class="btn-group">
               <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Nutrition
+                    Types of culinary ingredients
               </button>
               <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 {% for ing in item.ingredient_details %} 
                   <li class="dropdown-item d-flex justify-content-between align-items-center">
-                    <button class="card__btn" type="button" data-bs-toggle="offcanvas" 
-                    href="#offcanvasExample" aria-controls="offcanvasExample" data-id={{ ing.ingredient.ingredient_original_name }} data-info='more_data2'>{{ ing.ingredient.ingredient_original_name }}</button> 
+                    {{ ing.ingredient.ingredient_original_name }}
+                    <button type="button" class="card__btn" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-id={{ ing.ingredient.ingredient_original_name }} data-bs-info='nutrition' data-bs-toggle="modal" data-bs-target="#exampleModal" >Nutrition</button>
+                    <button type="button" class="card__btn" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-id={{ ing.ingredient.ingredient_original_name }} data-bs-info='recepy' data-bs-toggle="modal" data-bs-target="#exampleModal" >Recepy</button>
                   </li>
                 {% endfor %}
               </ul>
@@ -62,68 +60,36 @@ Home
 </div>  
 {% endif %}
 
-<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-scrollable">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="staticBackdropLabel">List of diseases: </h5>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-fullscreen modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Title</h1>
+      </div>
+      <div class="modal-body">
+        <div id='info1'  >
+          <h2>Plant Information</h2>
+          <div id="plant-container"></div>
+        </div>  
+      
+        <div id='info2' >
+          <h2>Plant Health</h2>
+          <div id="plant-health"></div>
+        </div>    
+
+        <div id='info4' >
+            <h5>Plant Disease Information</h5>
+            <div id="disease-container"></div>
         </div>
-        <div class="modal-body">
-          <ul id="disease-list"></ul>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
-
-  <div class="offcanvas offcanvas-top" tabindex="-1" id="offcanvasTop" aria-labelledby="offcanvasTopLabel">
-      <div class="clearfix">
-        <img class="col-md-4 float-md-end mb-2 ms-md-2" id="image" src="" alt="Image">
-        <p>
-          <h5 class="offcanvas-title"  id="name"></h5>
-          <div class="offcanvas-body" id="text">
-          </div>
-          <a id="wiki" href=""></a>      
-        </p>
-        <p>
-          <h5 class="offcanvas-title"  id="name1"></h5>
-          <div class="offcanvas-body" id="text1">
-          </div>
-        </p>   
-        <p>
-         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>  
-        </p>     
-    </div>
-  </div>
-
-  <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
-    <div class="offcanvas-header">
-      <h5 class="offcanvas-title" id="offcanvasExampleLabel">
-        <div id="title_ingredient"></div>
-      </h5>
-      <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-    <div class="offcanvas-body">
-      <div>
-        <hr style="border: 1px solid black; width: 80%;">
-      </div>
-      <div class="dropdown mt-3">
-        <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown">
-          Attributes
-        </button>
-        <ul class="dropdown-menu">
-          <li><a class="dropdown-item" href="#">Nutrition</a></li>
-          <li><a class="dropdown-item" href="#">Recepy</a></li>
-        </ul>
-      </div>
-    </div>
-  </div>
-
-
-
-
+</div>
 
 {% endblock %}  
 
