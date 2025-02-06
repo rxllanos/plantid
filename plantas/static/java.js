@@ -8,11 +8,13 @@ document.addEventListener('DOMContentLoaded', function() {
       handledata(id, info);
     })
   }
-
-
 });
 
 async function handledata(id, info) {
+  document.getElementById("plant-container").innerHTML = "";
+  document.getElementById("plant-health").innerHTML = "";
+  document.getElementById("disease-container").innerHTML = "";
+
   if (info === 'Plant_Information') {
     try {
       const response = await fetch(`/planta/api/plantadata/${id}/`);
@@ -39,27 +41,20 @@ async function handledata(id, info) {
       const propagationMethods = parseJsonField(plant.plant_data_propagation_methods);
 
       const card = document.createElement("div");
-      card.className = "card mb-4 shadow-sm full-width-card";
 
       card.innerHTML = `
-          <div class="row g-0">
-              <div class="col-md-4">
-                  <img src="${plant.plant_data_image}" class="img-fluid rounded-start" alt="${plant.plant_data_name}">
-              </div>
-              <div class="col-md-8">
-                  <div class="card-body">
-                      <h5 class="card-title">${plant.plant_data_name}</h5>
-                      <p class="text-muted">Probability: ${(plant.plant_data_probability * 100).toFixed(2)}%</p>
-                      <p><strong>Taxonomy:</strong> ${plant.plant_data_taxonomy}</p>
-                      <p><strong>GBIF ID:</strong> ${plant.plant_data_gbif_id} | <strong>iNaturalist ID:</strong> ${plant.plant_data_inaturalist_id}</p>
-                      <p><strong>Common Names:</strong> ${commonNames.join(", ")}</p>
-                      <p><strong>Edible Parts:</strong> ${edibleParts.join(", ")}</p>
-                      <p><strong>Propagation Methods:</strong> ${propagationMethods.join(", ")}</p>
-                      <p><strong>Watering:</strong> ${plant.plant_data_watering_min} - ${plant.plant_data_watering_max} (scale)</p>
-                      <a href="${plant.plant_data_url}" target="_blank" class="btn btn-primary btn-sm">Learn More</a>
-                  </div>
-              </div>
-          </div>
+      <div class="card-body">
+          <h5 class="card-title">${plant.plant_data_name}</h5>
+          <img src="${plant.plant_data_image}" class="img-fluid rounded-start" alt="${plant.plant_data_name}">
+          <p class="text-muted">Probability: ${(plant.plant_data_probability * 100).toFixed(2)}%</p>
+          <p><strong>Taxonomy:</strong> ${plant.plant_data_taxonomy}</p>
+          <p><strong>GBIF ID:</strong> ${plant.plant_data_gbif_id} | <strong>iNaturalist ID:</strong> ${plant.plant_data_inaturalist_id}</p>
+          <p><strong>Common Names:</strong> ${commonNames.join(", ")}</p>
+          <p><strong>Edible Parts:</strong> ${edibleParts.join(", ")}</p>
+          <p><strong>Propagation Methods:</strong> ${propagationMethods.join(", ")}</p>
+          <p><strong>Watering:</strong> ${plant.plant_data_watering_min} - ${plant.plant_data_watering_max} (scale)</p>
+          <a href="${plant.plant_data_url}" target="_blank" class="btn btn-primary btn-sm">Learn More</a>
+      </div>
       `;
       plantContainer.appendChild(card);
 
@@ -83,7 +78,6 @@ async function handledata(id, info) {
         
         diseases.forEach(disease => {
           const card = document.createElement("div");
-          card.className = "card mb-4 shadow-sm full-width-card";
 
           const parseJsonField = (field) => {
             try {
@@ -93,18 +87,17 @@ async function handledata(id, info) {
                 return [];
             }
         };
-
           const chemicalTreatment = parseJsonField(disease.disease_treatment_chemical).join(" ");
           const biologicalTreatment = parseJsonField(disease.disease_treatment_biological).join(" ");
           const preventionList = parseJsonField(disease.disease_prevention);
-
+          
           card.innerHTML = `
               <div class="card-body">
-                  <h5 class="card-title">${disease.disease_name}</h5>
+                  <hr>
+                  <h5 class="card-title">${disease.disease_name}</h5>               
                   <p class="text-muted">Probability: ${(disease.disease_probability * 100).toFixed(2)}%</p>
                   <p class="card-text">${disease.disease_description}</p>
                   <a href="${disease.disease_url}" target="_blank" class="btn btn-primary btn-sm">Learn More</a>
-                  <hr>
                   <h6 class="text-success">Treatment</h6>
                   <p><strong>Chemical:</strong> ${chemicalTreatment}</p>
                   <p><strong>Biological:</strong> ${biologicalTreatment}</p>
@@ -115,8 +108,10 @@ async function handledata(id, info) {
               </div>
           `;
           diseaseContainer.appendChild(card);
-
       });
+      }
+      else{
+        document.getElementById("modal2").style.display="none"
       }
 
     }
@@ -126,32 +121,6 @@ async function handledata(id, info) {
         console.log("This will always execute, regardless of an error.");
     }
   }
-
-
-  if(info=== 'Delete') {
-    const shouldDelete = confirm('Are you sure you want to delete this plant?');
-    if (shouldDelete) {
-      try {
-          const response = fetch(`/planta/api/planta/${buttonId}/`, {
-              method: 'DELETE',
-          });
-
-          if (response.ok) {
-              console.log('Plant deleted successfully!');
-          } else {
-              console.error('Error deleting plant:', response.statusText);
-          }
-      } 
-      catch (error) {
-          console.error('An error occurred while deleting the plant:', error);
-      }
-    } else {
-      console.log('Deletion canceled.');  
-  }
-      setTimeout(function() {
-        window.location.reload();
-      }, 100)
-  }   
 
 }
 

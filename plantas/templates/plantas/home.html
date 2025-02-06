@@ -62,39 +62,59 @@ Home
 
 
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-fullscreen modal-dialog-scrollable">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Title</h1>
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Additional information!</h1>
       </div>
       <div class="modal-body">
-        <div id='info1'  >
-          <h2>Plant Information</h2>
-          <div id="plant-container"></div>
-        </div>  
-      
-        <div id='info2' >
-          <h2>Plant Health</h2>
-          <div id="plant-health"></div>
-        </div>    
-
-        <div id='info4' >
-            <h5>Plant Disease Information</h5>
-            <div id="disease-container"></div>
-        </div>
+        <div class="container-fluid">
+          <div class="row">
+              <h2>Plant Details</h2>
+              <div id="plant-container"></div>
+          </div>
+          <div class="row">
+            <h2>Plant Health</h2>
+            <div id="plant-health"></div>
+          </div>  
+        </div> 
       </div>
-
       <div class="modal-footer">
+        <button id="modal2" class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">List of Diseases!</button>
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
       </div>
     </div>
   </div>
 </div>
 
+<div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Disease List</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <div class="container-fluid">
+            <div class="row">
+              <h5>Plant Disease Information</h5>
+              <div id="disease-container"></div>    
+            </div>  
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Back</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<br>
+
 {% endblock %}  
 
 {% block paging %}
-
+<br>
 <nav aria-label="Page navigation example" style="margin-top:20px;">
   <ul class="pagination justify-content-center">
     <li class="page-item disabled">
