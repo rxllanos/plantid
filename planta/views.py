@@ -103,10 +103,13 @@ class NutrientAPIView(APIView):
 class PlantIngredientAPIView(APIView):
     def get(self, request, pk):
         try:
-            plant = Plant.objects.get(plant_access_token=pk)
-            plantingedient = Ingredient.objects.get(ingredient_plant__plant_data_plant=plant)
-            serializer = IngredientSerializer(plantingedient)
-            return Response(serializer.data, status=status.HTTP_200_OK)
+            plant_data = Plant_data.objects.get(plant_data_plant__plant_access_token=pk)
+            queryset = Ingredient.objects.filter(ingredient_plant=plant_data)
+            serialized_data_list = []
+            for q in queryset:
+                serializer = IngredientSerializer(q)
+                serialized_data_list.append(serializer.data)
+            return Response(serialized_data_list, status=status.HTTP_200_OK)
         except Ingredient.DoesNotExist:
             return Response({'error': 'Ingredient not found'}, status=status.HTTP_404_NOT_FOUND)    
 
