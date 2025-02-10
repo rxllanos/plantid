@@ -13,6 +13,7 @@ document.addEventListener('DOMContentLoaded', function() {
 async function handledata(id, info) {
   document.getElementById("plant-container").innerHTML = "";
   document.getElementById("plant-health").innerHTML = "";
+  document.getElementById("ingredients").innerHTML = "";
   document.getElementById("disease-container").innerHTML = "";
 
   if (info === 'Plant_Information') {
@@ -26,15 +27,16 @@ async function handledata(id, info) {
         return;
       }
 
-      // Function to safely parse JSON fields
       const parseJsonField = (field) => {
-          try {
-              return JSON.parse(field.replace(/'/g, '"'));
-          } catch (error) {
-              console.error(`Error parsing field: ${field}`, error);
-              return [];
-          }
-      };
+        try {
+
+            let fixedField = field.replace(/'\b(?!\s)/g, '"').replace(/\b(?!\s)'/g, '"');
+            return JSON.parse(fixedField);
+        } catch (error) {
+            console.error(`Error parsing field: ${field}`, error);
+            return ["Parsing error: Invalid JSON format"];
+        }
+    };
 
       const commonNames = parseJsonField(plant.plant_data_common_names);
       const edibleParts = parseJsonField(plant.plant_data_edible_parts);
@@ -58,10 +60,8 @@ async function handledata(id, info) {
       `;
       plantContainer.appendChild(card);
 
-
       const response1 = await fetch(`/planta/api/plantahealth/${id}/`);
       const data1 = await response1.json();
-
       const percentage = data1.health_is_healthy_probability;
       const formattedPercentage = (percentage).toLocaleString(undefined, {
         style: 'percent',
@@ -69,46 +69,54 @@ async function handledata(id, info) {
       });
       document.getElementById("plant-health").innerHTML = `The plant is healthy? ${data1.health_is_healthy_binary}, probability of healthy: ${formattedPercentage}`;
 
+      const response2 = await fetch(`/planta/api/plantaingredient/${id}/`);
+      const ingredients = await response2.json();
+      const ingredientContainer = document.getElementById("ingredients");
+      ingredients.forEach((ingredient) => {
+        const possibleUnits = parseJsonField(ingredient.ingredient_possible_units);
+        const card = document.createElement("div");
+        card.className = ""; 
+
+        card.innerHTML = `
+            <div class="card-body">
+                <hr>
+                <img src="${ingredient.ingredient_img}" class="img-fluid rounded-start" alt="${ingredient.ingredient_original_name}">
+                <h5 class="card-title">${ingredient.ingredient_original_name}</h5>
+                <p><strong>Amount:</strong> ${ingredient.ingredient_amount} ${ingredient.ingredient_unit}</p>
+                <p><strong>Possible Units:</strong> ${possibleUnits.join(", ")}</p>
+                <p><strong>Consistency:</strong> ${ingredient.ingredient_consistency}</p>
+                <p><strong>Estimated Cost:</strong> ${ingredient.ingredient_estimated_cost_value} ${ingredient.ingredient_estimated_cost_unit}</p>
+            </div>
+        `;
+        ingredientContainer.appendChild(card);
+      });
 
       if(data1.health_is_healthy_binary===false){
+
         const response2 = await fetch(`/planta/api/plantadesease/${id}/`);
         const diseases = await response2.json();
-
         const diseaseContainer = document.getElementById("disease-container");
-        
+    
         diseases.forEach(disease => {
-          const card = document.createElement("div");
+            const diseaseCard = document.createElement("div");
+            // diseaseCard.classList.add("disease-card");
+            diseaseCard.innerHTML = `
+                <hr>
+                <h4>${disease.disease_name} (Probability: ${(disease.disease_probability * 100).toFixed(2)}%)</h4>
+                <p><strong>Description:</strong> ${disease.disease_description}</p>
+                <p><strong>Cause:</strong> ${disease.disease_cause || "Unknown"}</p>
+                <p><strong>Common Names:</strong> ${disease.disease_common_names_disease ? disease.disease_common_names_disease.join(", ") : "N/A"}</p>
+                <p><strong>Health Assessment:</strong> ${disease.disease_health_assessment}</p>
+                <p><strong>Treatment (Chemical):</strong> ${disease.disease_treatment_chemical.join("<br>")}</p>
+                <p><strong>Treatment (Biological):</strong> ${disease.disease_treatment_biological.join("<br>")}</p>
+                <p><strong>Prevention:</strong> ${disease.disease_prevention.join("<br>")}</p>
+                <a href="${disease.disease_url}" target="_blank">More Info</a>
+            `;
+    
+            diseaseContainer.appendChild(diseaseCard);
+        });
 
-          const parseJsonField = (field) => {
-            try {
-                return JSON.parse(field.replace(/'/g, '"'));
-            } catch (error) {
-                console.error(`Error parsing field: ${field}`, error);
-                return [];
-            }
-        };
-          const chemicalTreatment = parseJsonField(disease.disease_treatment_chemical).join(" ");
-          const biologicalTreatment = parseJsonField(disease.disease_treatment_biological).join(" ");
-          const preventionList = parseJsonField(disease.disease_prevention);
-          
-          card.innerHTML = `
-              <div class="card-body">
-                  <hr>
-                  <h5 class="card-title">${disease.disease_name}</h5>               
-                  <p class="text-muted">Probability: ${(disease.disease_probability * 100).toFixed(2)}%</p>
-                  <p class="card-text">${disease.disease_description}</p>
-                  <a href="${disease.disease_url}" target="_blank" class="btn btn-primary btn-sm">Learn More</a>
-                  <h6 class="text-success">Treatment</h6>
-                  <p><strong>Chemical:</strong> ${chemicalTreatment}</p>
-                  <p><strong>Biological:</strong> ${biologicalTreatment}</p>
-                  <h6 class="text-info">Prevention</h6>
-                  <ul>
-                      ${preventionList.map(item => `<li>${item}</li>`).join("")}
-                  </ul>
-              </div>
-          `;
-          diseaseContainer.appendChild(card);
-      });
+
       }
       else{
         document.getElementById("modal2").style.display="none"

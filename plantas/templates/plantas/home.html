@@ -26,33 +26,50 @@ Home
           </div>                
         </div>
       </div>
-
       <div class="card-body">
         <img class="card__img" src="{{ item.plant_data.plant_data_plant.plant_image.url }}" alt="Logo">  
         <hr style="border: 1px solid black; width: 80%;">
         <div class="small-font" class="btn-group">                     
           <button type="button" class="card__btn" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-id={{ item.plant_data.plant_data_plant.plant_access_token }} data-bs-info='Plant_Information' >Information</button>
-          {% if item.plant_data.plant_data_edible_parts %}
-            <div class="btn-group">
-              <button class="btn btn-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Types of culinary ingredients
-              </button>
-              <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                {% for ing in item.ingredient_details %} 
-                  <li class="dropdown-item d-flex justify-content-between align-items-center">
-                    {{ ing.ingredient.ingredient_original_name }}
-                    <button type="button" class="card__btn" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-id={{ ing.ingredient.ingredient_original_name }} data-bs-info='nutrition' data-bs-toggle="modal" data-bs-target="#exampleModal" >Nutrition</button>
-                    <button type="button" class="card__btn" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-id={{ ing.ingredient.ingredient_original_name }} data-bs-info='recepy' data-bs-toggle="modal" data-bs-target="#exampleModal" >Recepy</button>
-                  </li>
-                {% endfor %}
-              </ul>
+
+          
+          <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl modal-dialog-scrollable">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h1 class="modal-title fs-5" id="exampleModalLabel">Additional information!</h1>
+                </div>
+                <div class="modal-body">
+                  <div class="container-fluid">
+                    <div class="row">
+                      <hr><hr>
+                        <h2>Plant Details</h2>
+                        <div id="plant-container"></div>
+                    </div>
+                    <div class="row">
+                      <hr><hr>
+                      <h2>Plant Health</h2>
+                      <div id="plant-health"></div>
+                    </div>  
+          
+                    <div class="row">
+                      <hr><hr>
+                      <h2>Culinary ingredients</h2>
+                      <div id="ingredients"></div>
+                    </div> 
+                  </div> 
+                </div>
+                <div class="modal-footer">
+                  {% if item.plant_data.plant_data_edible_parts %}
+                    <button id="modal2" class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">List of Diseases!</button>
+                  {% else %}
+                    <p> Plant Not eatable, no info on recepies or nutritional facts! </p>
+                  {% endif %}
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+              </div>
             </div>
-        {% else %}
-          <p> Plant Not eatable, no info on recepies or nutritional facts! </p>
-        {% endif %}
-      </div>
-      <div class="card-footer">
-        <small class="text-body-secondary">Last updated 3 mins ago</small>
+          </div>
       </div>
     </div>           
   {% endfor %}
@@ -61,50 +78,23 @@ Home
 {% endif %}
 
 
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-xl modal-dialog-scrollable">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Additional information!</h1>
-      </div>
-      <div class="modal-body">
-        <div class="container-fluid">
-          <div class="row">
-              <h2>Plant Details</h2>
-              <div id="plant-container"></div>
-          </div>
-          <div class="row">
-            <h2>Plant Health</h2>
-            <div id="plant-health"></div>
-          </div>  
-        </div> 
-      </div>
-      <div class="modal-footer">
-        <button id="modal2" class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">List of Diseases!</button>
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-
 <div class="modal fade" id="exampleModalToggle2" aria-hidden="true" aria-labelledby="exampleModalToggleLabel2" tabindex="-1">
   <div class="modal-dialog modal-xl modal-dialog-centered">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalToggleLabel2">Disease List</h1>
+        <h2 class="modal-title fs-5" id="exampleModalToggleLabel2">Disease List</h2>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
           <div class="container-fluid">
             <div class="row">
-              <h5>Plant Disease Information</h5>
               <div id="disease-container"></div>    
             </div>  
           </div>
       </div>
-      <div class="modal-footer">
+      <!-- <div class="modal-footer">
         <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Back</button>
-      </div>
+      </div> -->
     </div>
   </div>
 </div>
