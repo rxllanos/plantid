@@ -44,9 +44,8 @@ class RecepyAPIView(APIView):
 class WeightPerServingAPIView(APIView):
     def get(self, request, pk):
         try:
-            ing = Ingredient.objects.get(ingredient_id_Ingredient=pk)
-            plantwps = WeightPerServing.objects.get(wps_ingredient=ing)
-            serializer = WeightPerServingSerializer(plantwps)
+            plantawps = WeightPerServing.objects.get(wps_ingredient__ingredient_original_name=pk)
+            serializer = WeightPerServingSerializer(plantawps)
             return Response(serializer.data, status=status.HTTP_200_OK)
         except Ingredient.DoesNotExist:
             return Response({'error': 'Ingredient not found'}, status=status.HTTP_404_NOT_FOUND)    
@@ -54,9 +53,8 @@ class WeightPerServingAPIView(APIView):
 class CaloricBreakdownAPIView(APIView):
     def get(self, request, pk):
         try:
-            ing = Ingredient.objects.get(ingredient_id_Ingredient=pk)
-            plantcbd = CaloricBreakdown.objects.get(cb_ingredient=ing)
-            serializer = CaloricBreakdownSerializer(plantcbd)
+            plantacbd = CaloricBreakdown.objects.get(cb_ingredient__ingredient_original_name=pk)
+            serializer = CaloricBreakdownSerializer(plantacbd)
             return Response(serializer.data, status=status.HTTP_200_OK)
         except Ingredient.DoesNotExist:
             return Response({'error': 'Ingredient not found'}, status=status.HTTP_404_NOT_FOUND)    
@@ -64,10 +62,9 @@ class CaloricBreakdownAPIView(APIView):
 class FlavonoidAPIView(APIView):
     def get(self, request, pk):
         try:        
-            ing = Ingredient.objects.get(ingredient_id_Ingredient=pk)
-            plantf = Flavonoid.objects.filter(flavonoid_ingredient=ing)
+            queryset = Flavonoid.objects.filter(flavonoid_ingredient__ingredient_original_name=pk)
             serialized_data_list = []
-            for q in plantf:
+            for q in queryset:
                 serializer = FlavonoidSerializer(q)
                 serialized_data_list.append(serializer.data)
             return Response(serialized_data_list, status=status.HTTP_200_OK)               
@@ -77,10 +74,9 @@ class FlavonoidAPIView(APIView):
 class PropertyAPIView(APIView):
     def get(self, request, pk):
         try:        
-            ing = Ingredient.objects.get(ingredient_id_Ingredient=pk)
-            plantproperty = Property.objects.filter(property_ingredient=ing)
+            queryset = Property.objects.filter(property_ingredient__ingredient_original_name=pk)
             serialized_data_list = []
-            for q in plantproperty:
+            for q in queryset:
                 serializer = PropertySerializer(q)
                 serialized_data_list.append(serializer.data)
             return Response(serialized_data_list, status=status.HTTP_200_OK)    
@@ -90,10 +86,9 @@ class PropertyAPIView(APIView):
 class NutrientAPIView(APIView):
     def get(self, request, pk):
         try:
-            ing = Ingredient.objects.get(ingredient_id_Ingredient=pk)
-            plantnutrient = NutrientDetail.objects.filter(nutrient_ingredient=ing)
+            queryset = NutrientDetail.objects.filter(nutrient_ingredient__ingredient_original_name=pk)
             serialized_data_list = []
-            for q in plantnutrient:
+            for q in queryset:
                 serializer = NutrientSerializer(q)
                 serialized_data_list.append(serializer.data)
             return Response(serialized_data_list, status=status.HTTP_200_OK)

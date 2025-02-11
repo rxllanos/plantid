@@ -30,9 +30,7 @@ Home
         <img class="card__img" src="{{ item.plant_data.plant_data_plant.plant_image.url }}" alt="Logo">  
         <hr style="border: 1px solid black; width: 80%;">
         <div class="small-font" class="btn-group">                     
-          <button type="button" class="card__btn" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-id={{ item.plant_data.plant_data_plant.plant_access_token }} data-bs-info='Plant_Information' >Information</button>
-
-          
+          <button type="button" class="card__btn" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-id={{ item.plant_data.plant_data_plant.plant_access_token }} data-bs-info='Plant_Information' >Information</button>    
           <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-xl modal-dialog-scrollable">
               <div class="modal-content">
@@ -60,11 +58,9 @@ Home
                   </div> 
                 </div>
                 <div class="modal-footer">
-                  {% if item.plant_data.plant_data_edible_parts %}
-                    <button id="modal2" class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">List of Diseases!</button>
-                  {% else %}
-                    <p> Plant Not eatable, no info on recepies or nutritional facts! </p>
-                  {% endif %}
+                  <div id="diseaseButton">
+                      <button id="modal2" class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal">List of Diseases!</button>
+                  </div>
                   <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 </div>
               </div>
@@ -92,9 +88,6 @@ Home
             </div>  
           </div>
       </div>
-      <!-- <div class="modal-footer">
-        <button class="btn btn-primary" data-bs-target="#exampleModalToggle" data-bs-toggle="modal">Back</button>
-      </div> -->
     </div>
   </div>
 </div>
