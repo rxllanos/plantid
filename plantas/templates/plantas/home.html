@@ -12,12 +12,19 @@ Home
 {% endblock %}
 
 {% block content-header %}
-<h3>Plants</h3>
+
+<div class="container-fluid">
+  <div class="row">
+    <h3>Plants</h3>
+  </div>
+</div>
+
+
 {% endblock %} 
 
 {% block content %}
 
-{% if user.is_authenticated %}
+<!-- {% if user.is_authenticated %}
   {% for item in plants_with_details %}
   <div class="row row-cols-1 row-cols-md-2 g-4">
     <div class="col">
@@ -45,7 +52,75 @@ Home
   </div>  
   {% endfor %}
 {% endif %}
-<br>
+<br> -->
+
+{% if user.is_authenticated %}
+  {% for item in page_obj %}
+  <div class="row row-cols-1 row-cols-md-2 g-4">
+    <div class="col">
+      <div class="card">
+        <div class="card__header">
+          <div class="title-background">
+            <div class="title">
+              <p>{{ item.common_names_list|join:", " |upper }}.</p>
+            </div>  
+          </div>              
+        </div>
+        <div class="card-body">
+          <img class="card__img" src="{{ item.plant_data.plant_data_plant.plant_image.url }}" alt="Logo">  
+          <hr style="border: 1px solid black; width: 80%;">
+          <div class="small-font" class="btn-group">   
+            <button type="button" class="btn btn-primary"
+                    data-toggle="modal" data-target="#exampleModal"
+                    data-id="{{ item.plant_data.plant_data_plant.plant_access_token }}" 
+                    data-info="Plant_Information">Additional information!
+            </button>
+          </div>
+        </div>  
+      </div>          
+    </div>
+  </div>  
+  {% endfor %}
+
+  <!-- Pagination Controls -->
+  <nav aria-label="Page navigation example">
+    <ul class="pagination justify-content-center">
+      {% if page_obj.has_previous %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_obj.previous_page_number }}" tabindex="-1">Previous</a>
+        </li>
+      {% else %}
+        <li class="page-item disabled">
+          <a class="page-link" href="#" tabindex="-1">Previous</a>
+        </li>
+      {% endif %}
+  
+      {% for num in page_obj.paginator.page_range %}
+        {% if page_obj.number == num %}
+          <li class="page-item active">
+            <a class="page-link" href="#">{{ num }} <span class="sr-only">(current)</span></a>
+          </li>
+        {% else %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+          </li>
+        {% endif %}
+      {% endfor %}
+  
+      {% if page_obj.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_obj.next_page_number }}">Next</a>
+        </li>
+      {% else %}
+        <li class="page-item disabled">
+          <a class="page-link" href="#">Next</a>
+        </li>
+      {% endif %}
+    </ul>
+  </nav>  
+  
+{% endif %}
+
 
 
 <div class="modal fade" id="exampleModal" aria-hidden="true" aria-labelledby="exampleLabel" role="dialog" tabindex="-1">
@@ -79,7 +154,6 @@ Home
   </div>
 </div>
 
-
 <div class="modal fade" id="exampleModal2" aria-hidden="true" aria-labelledby="exampleLabel" role="dialog" tabindex="-1">
   <div class="modal-dialog modal-lg modal-fullscreen modal-dialog-centered">
     <div class="modal-content">
@@ -101,25 +175,8 @@ Home
     </div>
   </div>
 </div>
-
 {% endblock %}  
 
-{% block paging %}
-<br>
-<nav aria-label="Page navigation example" style="margin-top:20px;">
-  <ul class="pagination justify-content-center">
-    <li class="page-item disabled">
-      <a class="page-link">Previous</a>
-    </li>
-    <li class="page-item"><a class="page-link" href="#">1</a></li>
-    <li class="page-item"><a class="page-link" href="#">2</a></li>
-    <li class="page-item"><a class="page-link" href="#">3</a></li>
-    <li class="page-item">
-      <a class="page-link" href="#">Next</a>
-    </li>
-  </ul>
-</nav>
-{% endblock %}   
 
 
 

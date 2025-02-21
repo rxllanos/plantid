@@ -2,6 +2,8 @@ from django.shortcuts import render
 from planta.models import Plant_data, Plant, Ingredient,NutrientDetail,Property,Flavonoid, CaloricBreakdown
 from django.contrib.auth.decorators import login_required
 import ast
+from django.core.paginator import Paginator
+
 
 @login_required
 def index(request):
@@ -30,5 +32,15 @@ def index(request):
             'ingredient_details': ingredient_details,
             'common_names_list': common_names_list
         })
-    context = {'plants_with_details':plant_data_with_details} 
+    # context = {'plants_with_details':plant_data_with_details} 
+    # return render(request, "home.html", context=context)
+
+
+    paginator = Paginator(plant_data_with_details, 5)  # Show 5 plants per page
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
+    context = {'page_obj': page_obj} 
     return render(request, "home.html", context=context)
+
+
