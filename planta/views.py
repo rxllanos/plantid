@@ -14,32 +14,7 @@ PlantSerializer, PlantDataSerializer, HealthSerializer, DeseaseSuggestionSeriali
 NutrientSerializer, PropertySerializer, FlavonoidSerializer, CaloricBreakdownSerializer,
 WeightPerServingSerializer, RecepySerializer, IngredientRecepySerializer,
 )
-
-class RecepyIngredientAPIView(APIView):
-    def get(self, request, pk):
-        try:
-            plantrecepy = Recepy.objects.get(recepy_id_recepy=pk)
-            ingedientrecepy = IngredientRecepy.objects.filter(ingrecepy_recepy=plantrecepy)
-            serialized_data_list = []
-            for q in ingedientrecepy:
-                serializer = IngredientRecepySerializer(q)
-                serialized_data_list.append(serializer.data)
-                return Response(serialized_data_list, status=status.HTTP_200_OK)   
-        except Plant_data.DoesNotExist:
-            return Response({'error': 'Ingredient not found'}, status=status.HTTP_404_NOT_FOUND)
-        
-class RecepyAPIView(APIView):
-    def get(self, request, pk):
-        try:
-            ing = Ingredient.objects.get(ingredient_id_Ingredient=pk)
-            plantrecepy = Recepy.objects.filter(recepy_ingredient=ing)
-            serialized_data_list = []
-            for q in plantrecepy:
-                serializer = RecepySerializer(q)
-                serialized_data_list.append(serializer.data)
-            return Response(serialized_data_list, status=status.HTTP_200_OK)   
-        except Ingredient.DoesNotExist:
-            return Response({'error': 'Ingredient not found'}, status=status.HTTP_404_NOT_FOUND)        
+  
         
 class WeightPerServingAPIView(APIView):
     def get(self, request, pk):
@@ -94,6 +69,30 @@ class NutrientAPIView(APIView):
             return Response(serialized_data_list, status=status.HTTP_200_OK)
         except Ingredient.DoesNotExist:
             return Response({'error': 'Ingredient not found'}, status=status.HTTP_404_NOT_FOUND)    
+
+class RecepyAPIView(APIView):
+    def get(self, request, pk):
+        try:
+            queryset = Recepy.objects.filter(recepy_ingredient__ingredient_original_name=pk)
+            serialized_data_list = []
+            for q in queryset:
+                serializer = RecepySerializer(q)
+                serialized_data_list.append(serializer.data)
+                return Response(serialized_data_list, status=status.HTTP_200_OK)   
+        except Plant_data.DoesNotExist:
+            return Response({'error': 'Ingredient not found'}, status=status.HTTP_404_NOT_FOUND)
+        
+class RecepyIngredientAPIView(APIView):
+    def get(self, request, pk):
+        try:
+            queryset = IngredientRecepy.objects.filter(ingrecepy_recepy__recepy_id_recepy=pk)
+            serialized_data_list = []
+            for q in queryset:
+                serializer = IngredientRecepySerializer(q)
+                serialized_data_list.append(serializer.data)
+            return Response(serialized_data_list, status=status.HTTP_200_OK)   
+        except Ingredient.DoesNotExist:
+            return Response({'error': 'Ingredient not found'}, status=status.HTTP_404_NOT_FOUND)      
 
 class PlantIngredientAPIView(APIView):
     def get(self, request, pk):

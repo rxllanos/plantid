@@ -24,36 +24,6 @@ Home
 
 {% block content %}
 
-<!-- {% if user.is_authenticated %}
-  {% for item in plants_with_details %}
-  <div class="row row-cols-1 row-cols-md-2 g-4">
-    <div class="col">
-      <div class="card">
-        <div class="card__header">
-          <div class="title-background">
-            <div class="title">
-              <p>{{ item.common_names_list|join:", " |upper }}. </p>
-            </div>  
-          </div>              
-        </div>
-        <div class="card-body">
-          <img class="card__img" src="{{ item.plant_data.plant_data_plant.plant_image.url }}" alt="Logo">  
-          <hr style="border: 1px solid black; width: 80%;">
-          <div class="small-font" class="btn-group">   
-            <button type="button" class="btn btn-primary"
-                    data-toggle="modal" data-target="#exampleModal"
-                    data-id={{ item.plant_data.plant_data_plant.plant_access_token }} 
-                    data-info='Plant_Information'>Additional information!
-            </button>
-          </div>
-        </div>  
-      </div>          
-    </div>
-  </div>  
-  {% endfor %}
-{% endif %}
-<br> -->
-
 {% if user.is_authenticated %}
   {% for item in page_obj %}
   <div class="row row-cols-1 row-cols-md-2 g-4">
@@ -71,7 +41,8 @@ Home
           <hr style="border: 1px solid black; width: 80%;">
           <div class="small-font" class="btn-group">   
             <button type="button" class="btn btn-primary"
-                    data-toggle="modal" data-target="#exampleModal"
+                    data-toggle="modal" 
+                    data-target="#exampleModal"
                     data-id="{{ item.plant_data.plant_data_plant.plant_access_token }}" 
                     data-info="Plant_Information">Additional information!
             </button>
@@ -82,7 +53,6 @@ Home
   </div>  
   {% endfor %}
 
-  <!-- Pagination Controls -->
   <nav aria-label="Page navigation example">
     <ul class="pagination justify-content-center">
       {% if page_obj.has_previous %}
@@ -121,8 +91,6 @@ Home
   
 {% endif %}
 
-
-
 <div class="modal fade" id="exampleModal" aria-hidden="true" aria-labelledby="exampleLabel" role="dialog" tabindex="-1">
   <div class="modal-dialog modal-lg modal-fullscreen modal-dialog-centered">
     <div class="modal-content">
@@ -148,7 +116,7 @@ Home
       </div>
       <div class="modal-footer">
         <button type="button" class="btn-close btn-secondary" data-bs-dismiss="modal"></button>
-        <button type="button" class ="modal2" data-toggle="modal" data-target="#exampleModal2"> 2nd modal</button>
+        <!-- <button type="button" class ="modal2" data-toggle="modal" data-target="#exampleModal2"> 2nd modal</button> -->
       </div>     
     </div>
   </div>
@@ -166,7 +134,6 @@ Home
             <hr><hr>
             <div id="container4"></div>
           </div>
-          <div class="row">    
         </div> 
       </div>
       <div class="modal-footer">
@@ -175,6 +142,7 @@ Home
     </div>
   </div>
 </div>
+
 {% endblock %}  
 
 

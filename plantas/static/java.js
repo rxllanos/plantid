@@ -22,9 +22,10 @@ document.addEventListener("DOMContentLoaded", function () {
   let ingredientContainer = document.getElementById("container3"); // Ensure this element exists
   ingredientContainer.addEventListener("click", function (event) {
       if (event.target.classList.contains("modal3")) {
-          let ingredient = event.target.dataset.ingredient;
+          let id = event.target.dataset.id;
+          let info = event.target.dataset.info;
           console.log("Ingredient Button Clicked! Attributes:", event.target.dataset);
-          Nutrition(ingredient);  // Now this function will run properly
+          handledata(id, info);  // Now this function will run properly
       }
   });
 
@@ -59,6 +60,12 @@ async function handledata(id, info) {
   }
   if (info === 'Disease') {
     Disease(id);
+  }
+  if (info === 'Nutrition'){
+    Nutrition(id);
+  }
+  if (info === 'Recepy'){
+    Recepy(id);
   }
 }
 
@@ -113,7 +120,7 @@ async function Plant(id){
         newButton.setAttribute("data-id", id);  // Example ID
         newButton.setAttribute("data-info", "Disease");
         newButton.classList.add("btn", "modal2");
-        newButton.innerText = "2nd Modal";
+        newButton.innerText = "Likely Diseases.";
         heatlhContainer.appendChild(newButton);
         console.log("Button Disease Created:", newButton.dataset);
       }  
@@ -159,16 +166,30 @@ async function Ingredient(id) {
           </div>
       `;
 
-      let newButton = document.createElement("button");
-      newButton.setAttribute("type", "button");
-      newButton.setAttribute("data-toggle", "modal");  // Bootstrap 5 uses data-bs-toggle
-      newButton.setAttribute("data-target", "#exampleModal2");
-      newButton.setAttribute("data-ingredient", ingredient.ingredient_original_name);  // Example ID
-      newButton.classList.add("btn", "modal3");
-      newButton.innerText = "Nutrition facts!";
-      console.log("Button Ingredient Created:", newButton.dataset);
+      let newButton1 = document.createElement("button");
+      newButton1.setAttribute("type", "button");
+      newButton1.setAttribute("data-toggle", "modal");  // Bootstrap 5 uses data-bs-toggle
+      newButton1.setAttribute("data-target", "#exampleModal2");
+      newButton1.setAttribute("data-id", ingredient.ingredient_original_name);  // Example ID
+      newButton1.setAttribute("data-info", "Nutrition");  // Example ID
+      newButton1.classList.add("btn", "modal3");
+      newButton1.innerText = "Nutrition facts!";
+      card.appendChild(newButton1);
+      console.log("Button Nutrition  Created:", newButton1.dataset);
 
-      card.appendChild(newButton);
+
+
+      let newButton2 = document.createElement("button");
+      newButton2.setAttribute("type", "button");
+      newButton2.setAttribute("data-toggle", "modal");  // Bootstrap 5 uses data-bs-toggle
+      newButton2.setAttribute("data-target", "#exampleModal2");
+      newButton2.setAttribute("data-id", ingredient.ingredient_original_name);  // Example ID
+      newButton2.setAttribute("data-info", "Recepy");
+      newButton2.classList.add("btn", "modal3");
+      newButton2.innerText = "Recepies!";
+      card.appendChild(newButton2);      
+      console.log("Button Recepy Created:", newButton2.dataset);
+
       ingredientContainer.appendChild(card);
     });
   }          
@@ -208,11 +229,11 @@ async function Disease(id){
   }  
 }
 
-async function Nutrition(ingredient){
+async function Nutrition(id){
   try {
     const nutritionContainer = document.getElementById("container4");
     nutritionContainer.innerHTML = "";
-
+    let ingredient = id
     const ingredientName = ingredient;
     const response1 = await fetch(`/planta/api/plantan/${ingredientName}/`);
     const nutrientData = await response1.json();
@@ -241,6 +262,72 @@ async function Nutrition(ingredient){
     nutritionContainer.appendChild(nutritiondiv);
 
   }
+  catch (error) {
+    console.error("Caught an error:", error.message);
+  } finally {
+      console.log("This will always execute, regardless of an error.");
+  }  
+}
+
+
+async function Recepy(id){
+  let ingredient = id
+  try {
+    const RecepyContainer = document.getElementById("container4");
+    RecepyContainer.innerHTML = "";
+    const response = await fetch(`/planta/api/ingredientrecepy/${ingredient}/`);
+    const recipes = await response.json();
+    recipes.forEach(recipe => {
+      const card = document.createElement('div');
+      card.classList.add('recipe-card');
+      
+      card.innerHTML = `
+      <img src="${recipe.recepy_image}" alt="${recipe.recepy_title}" class="recipe-image" onerror="this.onerror=null;this.src='https://via.placeholder.com/100?text=No+Image';">
+          <h4>${recipe.recepy_title}</h4>
+          <p>Used Ingredients: ${recipe.recepy_used_ingredient_count}</p>
+          <p>Missed Ingredients: ${recipe.recepy_missed_ingredient_count}</p>
+          <div class="ingredient-list" id="ingredients-${recipe.id}" style="display: none;"></div>
+      `;
+      RecepyContainer.appendChild(card);
+
+      const response1 = fetch(`/planta/api/recepyingredient/${recipe.recepy_id_recepy}/`);
+      const ingredients = response1.json();
+      ingredients.forEach(ing => {
+          const item = document.createElement('div');
+          item.classList.add('ingredient-item');
+          item.innerHTML = `
+              <img src="${ing.ingrecepy_image}" alt="${ing.ingrecepy_name}" class="ingredient-image">
+              <p>${ing.ingrecepy_amount} ${ing.ingrecepy_unit} ${ing.ingrecepy_name}</p>
+          `;
+          RecepyContainer.appendChild(item);
+
+          
+      });
+  });   
+
+  }
+  catch (error) {
+    console.error("Caught an error:", error.message);
+  } finally {
+      console.log("This will always execute, regardless of an error.");
+  }  
+}
+
+async function RecepyIng(id){
+  try {
+      const response1 = await fetch(`/planta/api/recepyingredient/${id}/`);
+      const ingredients = await response1.json();
+      ingredients.forEach(ing => {
+          const item = document.createElement('div');
+          item.classList.add('ingredient-item');
+          item.innerHTML = `
+              <img src="${ing.ingrecepy_image}" alt="${ing.ingrecepy_name}" class="ingredient-image">
+              <p>${ing.ingrecepy_amount} ${ing.ingrecepy_unit} ${ing.ingrecepy_name}</p>
+          `;
+          RecepyContainer.appendChild(item);
+      });
+  }
+
   catch (error) {
     console.error("Caught an error:", error.message);
   } finally {
